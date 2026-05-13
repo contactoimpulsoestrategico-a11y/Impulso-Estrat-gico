@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard · Sabor sin prejuicios (offline)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f2eb;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: #2e3b2c;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(145deg, #fefcf7 0%, #f8f3e9 100%);
+            border-right: 1px solid rgba(139, 154, 70, 0.15);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.02);
+        }
+
+        .logo-area {
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #6b4f3c;
+            line-height: 1.2;
+        }
+        .logo span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #8b9a46;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .nav {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            border-radius: 14px;
+            color: #4a3f35;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .nav-item span:first-child {
+            font-size: 1.3rem;
+            width: 28px;
+            text-align: center;
+        }
+        .nav-item:hover {
+            background-color: #e6d9c8;
+            color: #2e3b2c;
+        }
+        .nav-item.active {
+            background-color: #8b9a46;
+            color: white;
+        }
+
+        .logout {
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid #dccbb8;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 2.5rem;
+            background-color: #faf7f2;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4a3f35;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        .date-badge {
+            background-color: #e8e0d3;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: #4a3f35;
+        }
+        .notification {
+            position: relative;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+        .notification .badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background-color: #c29a6b;
+            color: white;
+            font-size: 0.7rem;
+            padding: 3px 6px;
+            border-radius: 20px;
+        }
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: #dccbb8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #5a4c3e;
+            border: 2px solid #c29a6b;
+            cursor: pointer;
+        }
+
+        /* TARJETAS DE MÉTRICAS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .metric-card {
+            background-color: white;
+            padding: 1.6rem 1.2rem;
+            border-radius: 24px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.02);
+            border: 1px solid #efe6d8;
+            transition: transform 0.1s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(139,154,70,0.1);
+        }
+
+        .metric-title {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #7b6e5d;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .metric-title span {
+            font-size: 1.3rem;
+        }
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #3a2f28;
+        }
+        .metric-change {
+            font-size: 0.85rem;
+            color: #6f8f4a;
+            background: #e7f0da;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            align-self: flex-start;
+        }
+
+        /* CATEGORÍAS */
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin: 2rem 0 1.2rem 0;
+            color: #4f4236;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            border: 1px solid #e8d9c8;
+            box-shadow: 0 4px 6px #ede3d6;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            background-color: #f6ede2;
+            border-color: #c29a6b;
+        }
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .category-name {
+            font-weight: 600;
+            color: #3a2f28;
+        }
+        .category-count {
+            font-size: 0.9rem;
+            color: #8b7b68;
+            margin-top: 4px;
+        }
+
+        /* CHARTS SIMULADOS (offline, sin Canvas) */
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1.2fr 2fr;
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid #efe2d2;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
+        }
+
+        .chart-title {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: #5a4c3e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chart-title button {
+            background: none;
+            border: 1px solid #d4bb9f;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #5a4c3e;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chart-title button:hover {
+            background-color: #c29a6b;
+            border-color: #c29a6b;
+            color: white;
+        }
+
+        /* Gráfico de barras simulado */
+        .bar-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 160px;
+            margin-top: 1rem;
+            gap: 8px;
+        }
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .bar {
+            width: 100%;
+            background-color: #c29a6b;
+            border-radius: 8px 8px 0 0;
+            min-height: 4px;
+            transition: height 0.2s;
+        }
+        .bar-label {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #5a4f42;
+        }
+
+        /* Gráfico de líneas simulado con SVG */
+        .line-graph-svg {
+            width: 100%;
+            height: 140px;
+            margin-top: 0.5rem;
+        }
+        .line-graph-svg svg {
+            width: 100%;
+            height: 100%;
+            stroke: #8b9a46;
+            stroke-width: 2;
+            fill: none;
+        }
+        .line-points {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: #7b6e5d;
+        }
+
+        /* TABLA DE PEDIDOS */
+        .table-wrapper {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            border: 1px solid #efe2d2;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.02);
+            margin-top: 1rem;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .table-header h3 {
+            font-weight: 500;
+            color: #4f4236;
+        }
+        .table-header button {
+            background-color: #8b9a46;
+            border: none;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #7a8838;
+        }
+        .table-header button:hover {
+            background-color: #9aab54;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem 0.5rem 0.8rem 0.5rem;
+            font-weight: 500;
+            color: #8b7b68;
+            border-bottom: 1px solid #e0d1c0;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.9rem 0.5rem;
+            border-bottom: 1px solid #f0e5d8;
+            color: #3f352d;
+        }
+
+        .status-badge {
+            background-color: #e7d9cb;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .status-badge.pagado {
+            background-color: #d0e6c1;
+            color: #3d6827;
+        }
+        .status-badge.pendiente {
+            background-color: #f8e0b0;
+            color: #8f6f2d;
+        }
+        .status-badge.enviado {
+            background-color: #c1d7e6;
+            color: #25597e;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #9c8874;
+            margin: 0 4px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 4px 6px;
+            border-radius: 8px;
+        }
+        .action-btn:hover {
+            background-color: #e1d2c2;
+            color: #4f3f32;
+        }
+
+        .btn-icon {
+            background-color: #f2e5d7;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b5a4a;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.2rem;
+        }
+        .btn-icon:hover {
+            background-color: #c29a6b;
+            color: white;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-grid { grid-template-columns: repeat(2, 1fr); }
+            .category-grid { grid-template-columns: repeat(3, 1fr); }
+            .charts-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 800px) {
+            .sidebar { width: 80px; padding: 1rem 0.5rem; }
+            .sidebar span:not(.nav-item span:first-child) { display: none; }
+            .nav-item span:first-child { margin: 0 auto; }
+            .main { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo">
+                🌱 Sabor<br>sin prejuicios
+                <span>YOGUR · QUESOS · GRANOLA</span>
+            </div>
+        </div>
+        <nav class="nav">
+            <div class="nav-item active">
+                <span>📊</span>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <span>🧀</span>
+                <span>Productos</span>
+            </div>
+            <div class="nav-item">
+                <span>🛒</span>
+                <span>Pedidos</span>
+            </div>
+            <div class="nav-item">
+                <span>👥</span>
+                <span>Clientes</span>
+            </div>
+            <div class="nav-item">
+                <span>📈</span>
+                <span>Reportes</span>
+            </div>
+            <div class="nav-item">
+                <span>⚙️</span>
+                <span>Ajustes</span>
+            </div>
+            <div class="logout nav-item">
+                <span>🚪</span>
+                <span>Cerrar sesión</span>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <!-- HEADER -->
+        <header class="header">
+            <h1>🍽️ Buen provecho, Admin</h1>
+            <div class="header-right">
+                <div class="date-badge">
+                    📅 17 Mar 2026
+                </div>
+                <div class="notification">
+                    <span>🔔</span>
+                    <span class="badge">3</span>
+                </div>
+                <div class="user-avatar">
+                    <span>TA</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- MÉTRICAS -->
+        <div class="cards-grid">
+            <div class="metric-card">
+                <div class="metric-title"><span>💰</span> Ingresos totales</div>
+                <div class="metric-value">$12,540</div>
+                <div class="metric-change">+12% vs ayer</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title"><span>📦</span> Pedidos</div>
+                <div class="metric-value">187</div>
+                <div class="metric-change">+23 nuevos</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title"><span>👥</span> Clientes</div>
+                <div class="metric-value">1,423</div>
+                <div class="metric-change">+32 este mes</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-title"><span>⭐</span> Ticket promedio</div>
+                <div class="metric-value">$67</div>
+                <div class="metric-change">+5%</div>
+            </div>
+        </div>
+
+        <!-- CATEGORÍAS -->
+        <div class="section-title">
+            <span>🏷️</span> Categorías artesanales
+            <button class="btn-icon" style="margin-left: auto;" onclick="alert('Explorar categorías')">→</button>
+        </div>
+        <div class="category-grid">
+            <div class="category-card" onclick="alert('Yogur Artesanal')">
+                <div class="category-icon">🥛</div>
+                <div class="category-name">Yogur</div>
+                <div class="category-count">12 variedades</div>
+            </div>
+            <div class="category-card" onclick="alert('Quesos crema')">
+                <div class="category-icon">🧀</div>
+                <div class="category-name">Quesos</div>
+                <div class="category-count">8 tipos</div>
+            </div>
+            <div class="category-card" onclick="alert('Granola artesanal')">
+                <div class="category-icon">🌾</div>
+                <div class="category-name">Granola</div>
+                <div class="category-count">6 mixes</div>
+            </div>
+            <div class="category-card" onclick="alert('Chocolates')">
+                <div class="category-icon">🍫</div>
+                <div class="category-name">Chocolates</div>
+                <div class="category-count">10 tabletas</div>
+            </div>
+            <div class="category-card" onclick="alert('Café de origen')">
+                <div class="category-icon">☕</div>
+                <div class="category-name">Café</div>
+                <div class="category-count">5 blends</div>
+            </div>
+        </div>
+
+        <!-- GRÁFICOS SIMULADOS OFFLINE -->
+        <div class="charts-row">
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span><span style="margin-right: 8px;">🥧</span> Ventas por categoría</span>
+                    <button onclick="alert('Ver detalle de ventas')">Ver más</button>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar-item"><div class="bar" style="height:90px; background:#c29a6b;"></div><div class="bar-label">Yogur</div></div>
+                    <div class="bar-item"><div class="bar" style="height:60px; background:#b5b87c;"></div><div class="bar-label">Quesos</div></div>
+                    <div class="bar-item"><div class="bar" style="height:45px; background:#d9b382;"></div><div class="bar-label">Granola</div></div>
+                    <div class="bar-item"><div class="bar" style="height:78px; background:#a58d73;"></div><div class="bar-label">Chocolates</div></div>
+                    <div class="bar-item"><div class="bar" style="height:52px; background:#8faa6b;"></div><div class="bar-label">Café</div></div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">
+                    <span><span style="margin-right: 8px;">📉</span> Ingresos últimos 7 días</span>
+                    <button onclick="alert('Exportar reporte')">Exportar</button>
+                </div>
+                <div class="line-graph-svg">
+                    <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+                        <polyline points="10,80 50,60 90,50 130,30 170,20 210,10 250,30 290,40" stroke="#8b9a46" stroke-width="2" fill="none" />
+                        <circle cx="10" cy="80" r="3" fill="#c29a6b" />
+                        <circle cx="50" cy="60" r="3" fill="#c29a6b" />
+                        <circle cx="90" cy="50" r="3" fill="#c29a6b" />
+                        <circle cx="130" cy="30" r="3" fill="#c29a6b" />
+                        <circle cx="170" cy="20" r="3" fill="#c29a6b" />
+                        <circle cx="210" cy="10" r="3" fill="#c29a6b" />
+                        <circle cx="250" cy="30" r="3" fill="#c29a6b" />
+                        <circle cx="290" cy="40" r="3" fill="#c29a6b" />
+                    </svg>
+                </div>
+                <div class="line-points">
+                    <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA DE PEDIDOS -->
+        <div class="table-wrapper">
+            <div class="table-header">
+                <h3><span style="margin-right: 8px;">🚚</span> Pedidos recientes</h3>
+                <button onclick="alert('Crear nuevo pedido')"><span>➕</span> Nuevo pedido</button>
+            </div>
+            <table>
+                <thead>
+                    <tr><th>Producto</th><th>Categoría</th><th>Cant.</th><th>Total</th><th>Estado</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Yogur natural con miel</td><td>Yogur</td><td>3</td><td>$24.50</td><td><span class="status-badge pagado">Pagado</span></td><td><button class="action-btn" onclick="alert('Editar')">✏️</button><button class="action-btn" onclick="alert('Ver')">👁️</button><button class="action-btn" onclick="alert('Eliminar')">🗑️</button></td></tr>
+                    <tr><td>Queso crema finas hierbas</td><td>Quesos</td><td>2</td><td>$18.20</td><td><span class="status-badge enviado">Enviado</span></td><td><button class="action-btn" onclick="alert('Editar')">✏️</button><button class="action-btn" onclick="alert('Ver')">👁️</button><button class="action-btn" onclick="alert('Eliminar')">🗑️</button></td></tr>
+                    <tr><td>Granola crunchy frutos rojos</td><td>Granola</td><td>1</td><td>$9.95</td><td><span class="status-badge pendiente">Pendiente</span></td><td><button class="action-btn" onclick="alert('Editar')">✏️</button><button class="action-btn" onclick="alert('Ver')">👁️</button><button class="action-btn" onclick="alert('Eliminar')">🗑️</button></td></tr>
+                    <tr><td>Chocolate 70% cacao</td><td>Chocolates</td><td>5</td><td>$32.50</td><td><span class="status-badge pagado">Pagado</span></td><td><button class="action-btn" onclick="alert('Editar')">✏️</button><button class="action-btn" onclick="alert('Ver')">👁️</button><button class="action-btn" onclick="alert('Eliminar')">🗑️</button></td></tr>
+                    <tr><td>Café orgánico molido 250g</td><td>Café</td><td>2</td><td>$27.90</td><td><span class="status-badge enviado">Enviado</span></td><td><button class="action-btn" onclick="alert('Editar')">✏️</button><button class="action-btn" onclick="alert('Ver')">👁️</button><button class="action-btn" onclick="alert('Eliminar')">🗑️</button></td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end;">
+                <button class="btn-icon" style="background-color:#8b9a46; color:white;" onclick="alert('Ver todos los pedidos')">→</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Todos los botones sin onclick específico reciben un alert genérico
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('button:not([onclick])');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    alert('Botón funcional: ' + (btn.innerText.trim() || 'acción'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>

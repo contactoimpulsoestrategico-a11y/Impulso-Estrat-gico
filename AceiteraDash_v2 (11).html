@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔧 Ferreteria Garcia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
+:root{
+  --bg:#0f1117;--sb:#13151c;--card:#1a1d27;--card2:#1e2130;
+  --accent:#f59e0b;--a2:#ef4444;--ok:#22c55e;--info:#3b82f6;--purple:#a855f7;
+  --t1:#e2e8f0;--t2:#94a3b8;--t3:#64748b;--br:#2a2e3e;--br2:#343848;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--t1);display:flex;height:100vh;overflow:hidden;font-size:14px}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--br2);border-radius:4px}
+
+/* ── SIDEBAR ── */
+#sb{width:220px;background:var(--sb);display:flex;flex-direction:column;flex-shrink:0;border-right:1px solid var(--br)}
+.logo{padding:18px 16px;border-bottom:1px solid var(--br)}
+.logo h1{font-family:'Rajdhani',sans-serif;font-size:1.3rem;color:var(--accent);letter-spacing:1px}
+.logo span{font-size:.65rem;color:var(--t3);display:block;margin-top:1px}
+.nav{flex:1;padding:8px 0;overflow-y:auto}
+.nsec{padding:12px 16px 4px;font-size:.6rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3)}
+.ni{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;transition:background .15s,color .15s;color:var(--t2);border-left:3px solid transparent;font-size:.84rem;font-weight:500}
+.ni:hover{background:rgba(255,255,255,.03);color:var(--t1)}
+.ni.on{background:rgba(245,158,11,.09);color:var(--accent);border-left-color:var(--accent)}
+.ni .ic{font-size:1rem;width:20px;text-align:center}
+.sfooter{padding:12px 16px;border-top:1px solid var(--br)}
+.fspill{display:flex;align-items:center;gap:7px;font-size:.72rem;color:var(--t3);cursor:pointer;padding:7px 10px;border-radius:8px;background:var(--card);transition:background .2s;border:1px solid var(--br)}
+.fspill:hover{background:var(--card2)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:background .3s}
+.fspill.con .dot{background:var(--ok)}
+.fspill.con{color:var(--ok)}
+
+/* ── MAIN ── */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#topbar{background:var(--sb);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--br);flex-shrink:0}
+#ptitle{font-family:'Rajdhani',sans-serif;font-size:1.15rem;letter-spacing:.5px}
+.tright{display:flex;gap:8px;align-items:center}
+#tdate{font-size:.72rem;color:var(--t3)}
+#content{flex:1;overflow-y:auto;padding:20px}
+
+/* ── BUTTONS ── */
+.btn{padding:7px 14px;border-radius:8px;border:none;cursor:pointer;font-size:.82rem;font-weight:600;font-family:'DM Sans',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px;line-height:1}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.ba{background:var(--accent);color:#000}.ba:hover{background:#d97706}
+.bs{background:var(--ok);color:#000}.bs:hover{background:#16a34a}
+.bi{background:var(--info);color:#fff}.bi:hover{background:#2563eb}
+.bd{background:var(--a2);color:#fff}.bd:hover{background:#dc2626}
+.bg{background:var(--card2);color:var(--t2);border:1px solid var(--br2)}.bg:hover{background:var(--br2);color:var(--t1)}
+.bo{background:transparent;color:var(--t2);border:1px solid var(--br2)}.bo:hover{border-color:var(--accent);color:var(--accent)}
+.bsm{padding:5px 10px;font-size:.75rem}
+.bxs{padding:3px 8px;font-size:.7rem}
+
+/* ── CARDS ── */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:18px}
+.sc{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--br);position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent)}
+.sc.g::before{background:var(--ok)}.sc.b::before{background:var(--info)}.sc.r::before{background:var(--a2)}.sc.p::before{background:var(--purple)}
+.slbl{font-size:.68rem;text-transform:uppercase;letter-spacing:.8px;color:var(--t3)}
+.sval{font-family:'Rajdhani',sans-serif;font-size:1.9rem;font-weight:700;color:var(--t1);margin:3px 0 2px;line-height:1}
+.ssub{font-size:.7rem;color:var(--t3)}
+.sico{position:absolute;top:14px;right:14px;font-size:1.5rem;opacity:.12}
+
+/* ── CHARTS ── */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.cc{background:var(--card);border-radius:12px;padding:16px;border:1px solid var(--br)}
+.cc.wide{grid-column:1/-1}
+.cc h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:12px}
+canvas{display:block;width:100%!important}
+
+/* ── TABLES ── */
+.tc{background:var(--card);border-radius:12px;border:1px solid var(--br);overflow:hidden;margin-bottom:14px}
+.thead{padding:13px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--br)}
+.thead h3{font-size:.84rem;font-weight:600}
+table{width:100%;border-collapse:collapse}
+th{padding:8px 13px;text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.7px;color:var(--t3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--br);font-weight:600}
+td{padding:8px 13px;border-bottom:1px solid var(--br);font-size:.81rem;color:var(--t2)}
+td:first-child{color:var(--t1)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.015)}
+.tempty{text-align:center;padding:36px;color:var(--t3);font-size:.84rem}
+
+/* ── FORMS ── */
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fr.c3{grid-template-columns:1fr 1fr 1fr}
+.fr.c1{grid-template-columns:1fr}
+.fg{display:flex;flex-direction:column;gap:5px}
+.fg label{font-size:.7rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.5px}
+.fg input,.fg select,.fg textarea{padding:8px 10px;background:var(--card2);border:1px solid var(--br2);border-radius:8px;font-size:.84rem;color:var(--t1);font-family:'DM Sans',sans-serif;transition:border-color .15s;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg select option{background:var(--card2)}
+.fg textarea{resize:vertical;min-height:65px}
+
+/* ── MODAL ── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(3px)}
+.ov.show{display:flex}
+.modal{background:var(--card);border-radius:16px;padding:22px;width:92%;max-width:560px;max-height:90vh;overflow-y:auto;border:1px solid var(--br2);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.mlg{max-width:720px}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.mh h3{font-family:'Rajdhani',sans-serif;font-size:1.1rem;letter-spacing:.5px}
+.mf{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:13px;border-top:1px solid var(--br)}
+.mx{background:none;border:none;cursor:pointer;font-size:1.3rem;color:var(--t3);padding:2px;line-height:1}
+.mx:hover{color:var(--a2)}
+
+/* ── BADGES ── */
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.67rem;font-weight:700}
+.bok{background:rgba(34,197,94,.15);color:#4ade80}
+.blow{background:rgba(245,158,11,.15);color:var(--accent)}
+.bout{background:rgba(239,68,68,.15);color:#f87171}
+.binf{background:rgba(59,130,246,.15);color:#93c5fd}
+.bpur{background:rgba(168,85,247,.15);color:#c084fc}
+
+/* ── TOAST ── */
+#tst{position:fixed;bottom:18px;right:18px;z-index:9999;display:flex;flex-direction:column;gap:7px}
+.titem{background:var(--card2);border:1px solid var(--br2);border-radius:10px;padding:11px 15px;font-size:.81rem;color:var(--t1);box-shadow:0 8px 24px rgba(0,0,0,.35);display:flex;align-items:center;gap:9px;min-width:220px;max-width:320px;animation:tsIn .25s ease}
+.titem.ok{border-left:3px solid var(--ok)}
+.titem.err{border-left:3px solid var(--a2)}
+.titem.info{border-left:3px solid var(--info)}
+@keyframes tsIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── POS ── */
+.posgrid{display:grid;grid-template-columns:1fr 340px;gap:12px;height:calc(100vh - 92px)}
+.posleft{background:var(--card);border-radius:12px;border:1px solid var(--br);display:flex;flex-direction:column;overflow:hidden}
+.possearch{padding:10px;border-bottom:1px solid var(--br)}
+.possearch input{width:100%;padding:8px 11px;background:var(--card2);border:1px solid var(--br2);border-radius:8px;font-size:.84rem;color:var(--t1);font-family:'DM Sans',sans-serif;outline:none}
+.possearch input:focus{border-color:var(--accent)}
+.poscats{display:flex;gap:5px;padding:9px 10px;border-bottom:1px solid var(--br);overflow-x:auto;flex-shrink:0}
+.poscats::-webkit-scrollbar{height:3px}
+.poscat{padding:4px 11px;border-radius:20px;font-size:.7rem;font-weight:600;cursor:pointer;white-space:nowrap;background:var(--card2);color:var(--t2);border:1px solid var(--br2);transition:all .15s}
+.poscat.on{background:rgba(245,158,11,.15);color:var(--accent);border-color:rgba(245,158,11,.3)}
+.prodgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:7px;padding:10px;overflow-y:auto;flex:1}
+.pcard{background:var(--card2);border:1px solid var(--br2);border-radius:10px;padding:9px;cursor:pointer;transition:all .15s;text-align:center;user-select:none}
+.pcard:hover{border-color:var(--accent);background:rgba(245,158,11,.06);transform:translateY(-1px)}
+.pcard.oos{opacity:.38;cursor:not-allowed;pointer-events:none}
+.pcard .pic{font-size:1.7rem;margin-bottom:3px;line-height:1}
+.pcard .pnm{font-size:.7rem;font-weight:600;color:var(--t1);line-height:1.3;margin-bottom:2px}
+.pcard .ppr{font-size:.82rem;color:var(--accent);font-weight:700}
+.pcard .pst{font-size:.62rem;color:var(--t3)}
+
+/* ── CART ── */
+.cartpanel{background:var(--card);border-radius:12px;border:1px solid var(--br);display:flex;flex-direction:column;overflow:hidden}
+.carth{padding:13px 15px;border-bottom:1px solid var(--br);display:flex;justify-content:space-between;align-items:center}
+.carth h3{font-family:'Rajdhani',sans-serif;font-size:1rem;letter-spacing:.5px}
+.cartitems{flex:1;overflow-y:auto;padding:7px}
+.cartempty{text-align:center;padding:30px 15px;color:var(--t3);font-size:.82rem}
+.ci{display:flex;align-items:center;gap:7px;padding:7px;border-radius:8px;margin-bottom:3px;background:var(--card2)}
+.cinm{flex:1;font-size:.75rem;color:var(--t1);line-height:1.3}
+.ciq{display:flex;align-items:center;gap:3px}
+.ciq button{width:22px;height:22px;border-radius:6px;border:1px solid var(--br2);background:var(--card);color:var(--t1);cursor:pointer;font-weight:700;font-size:.85rem;line-height:1;transition:all .15s}
+.ciq button:hover{border-color:var(--accent);color:var(--accent)}
+.ciq span{font-size:.78rem;min-width:20px;text-align:center;font-weight:600}
+.cipr{font-size:.78rem;color:var(--ok);font-weight:700;min-width:52px;text-align:right}
+.cidel{background:none;border:none;cursor:pointer;color:var(--t3);font-size:.85rem;padding:2px}
+.cidel:hover{color:var(--a2)}
+.cartfoot{padding:11px 14px;border-top:1px solid var(--br)}
+.cartinputs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:7px}
+.cartinputs input,.cartinputs select{padding:7px 9px;background:var(--card2);border:1px solid var(--br2);border-radius:7px;font-size:.77rem;color:var(--t1);font-family:'DM Sans',sans-serif;outline:none}
+.cartinputs input:focus,.cartinputs select:focus{border-color:var(--accent)}
+.cartrow{display:flex;justify-content:space-between;padding:2px 0;font-size:.8rem;color:var(--t2)}
+.cartrow.grand{font-weight:700;font-size:1rem;color:var(--accent);margin-top:5px;padding-top:5px;border-top:1px solid var(--br)}
+
+/* ── FACTURA PRINT ── */
+.facbody{font-family:'Courier New',monospace;font-size:.77rem;color:#111;background:#fff;padding:14px;border-radius:8px;border:1px solid var(--br2)}
+.fach{text-align:center;border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:8px}
+.fach h2{font-size:.95rem;margin-bottom:2px}
+.factbl{width:100%;border-collapse:collapse;margin:7px 0}
+.factbl th,.factbl td{padding:3px 0;font-size:.71rem}
+.factbl th{border-bottom:1px solid #333;text-align:left}
+.factot{text-align:right;border-top:1px solid #333;padding-top:5px;margin-top:5px;font-size:.77rem}
+.facfoot{text-align:center;margin-top:8px;font-size:.69rem;color:#666}
+
+/* ── FILTERS ── */
+.fbar{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap;align-items:center}
+.fbar input,.fbar select{padding:7px 10px;background:var(--card2);border:1px solid var(--br2);border-radius:8px;font-size:.81rem;color:var(--t1);font-family:'DM Sans',sans-serif;outline:none}
+.fbar input:focus,.fbar select:focus{border-color:var(--accent)}
+.fbar .fsearch{flex:1;min-width:150px}
+
+/* ── BACKUP ── */
+.bgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px}
+.bcard{background:var(--card);border-radius:12px;border:1px solid var(--br);padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.bcard .bic{font-size:2.2rem}
+.bcard h3{font-family:'Rajdhani',sans-serif;font-size:.95rem;letter-spacing:.5px}
+.bcard p{font-size:.75rem;color:var(--t3);line-height:1.6;text-align:center}
+.blog{background:#0a0c10;border-radius:8px;padding:11px;font-family:'Courier New',monospace;font-size:.71rem;color:var(--t3);height:160px;overflow-y:auto;text-align:left;border:1px solid var(--br)}
+.lok{color:#4ade80}.lerr{color:#f87171}.linf{color:#60a5fa}.lwrn{color:#fbbf24}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:3px;background:rgba(255,255,255,.03);padding:4px;border-radius:10px;margin-bottom:14px;width:fit-content;border:1px solid var(--br)}
+.tab{padding:6px 13px;border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:600;color:var(--t3);transition:all .15s}
+.tab.on{background:var(--card2);color:var(--t1);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+
+/* ── MISC ── */
+.flex{display:flex}.gap2{gap:8px}.gap1{gap:4px}.mb3{margin-bottom:12px}.mb4{margin-bottom:16px}.mt3{margin-top:12px}
+.tr{text-align:right}.tc2{text-align:center}.tmut{color:var(--t3);font-size:.77rem}
+.bold{font-weight:700}.tacc{color:var(--accent)}.tok{color:var(--ok)}.terr{color:var(--a2)}
+.sep{border:none;border-top:1px solid var(--br);margin:13px 0}
+.alw{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:var(--accent);padding:9px 13px;border-radius:8px;font-size:.81rem;margin-bottom:11px}
+.ali{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3);color:#93c5fd;padding:9px 13px;border-radius:8px;font-size:.81rem;margin-bottom:11px}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{display:none}
+
+@media print{
+  #sb,#topbar,#tst,.noprint{display:none!important}
+  #main{overflow:visible}#content{overflow:visible;padding:0}
+  .ov{background:none;position:static;display:block!important}
+  .modal{box-shadow:none;border:none;max-width:100%;padding:0}
+  .mh,.mf,.btn{display:none!important}
+  body{background:#fff;color:#000}
+  .facbody{border:none;padding:0}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div id="sb">
+  <div class="logo">
+    <h1>🔧 Ferreteria Garcia</h1>
+    <span>Sistema de Control v2.0</span>
+  </div>
+  <nav class="nav">
+    <div class="nsec">Principal</div>
+    <div class="ni on" id="nav-dashboard"  onclick="go('dashboard')"><span class="ic">📊</span>Dashboard</div>
+    <div class="ni" id="nav-ventas"    onclick="go('ventas')"><span class="ic">🛒</span>Nueva Venta</div>
+    <div class="nsec">Gestión</div>
+    <div class="ni" id="nav-inventario" onclick="go('inventario')"><span class="ic">📦</span>Inventario</div>
+    <div class="ni" id="nav-facturas"   onclick="go('facturas')"><span class="ic">🧾</span>Facturas</div>
+    <div class="ni" id="nav-reportes"   onclick="go('reportes')"><span class="ic">📈</span>Reportes</div>
+    <div class="nsec">Sistema</div>
+    <div class="ni" id="nav-backup"     onclick="go('backup')"><span class="ic">💾</span>Backup</div>
+    <div class="ni" id="nav-config"     onclick="go('config')"><span class="ic">⚙️</span>Configuración</div>
+  </nav>
+  <div class="sfooter">
+    <div class="fspill" id="fspill" onclick="toggleFS()">
+      <div class="dot"></div>
+      <span id="fslabel">Sin carpeta guardada</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <span id="ptitle">Dashboard</span>
+    <div class="tright">
+      <span id="tdate"></span>
+      <button class="btn ba bsm" onclick="saveData()">💾 Guardar</button>
+    </div>
+  </div>
+  <div id="content"></div>
+</div>
+
+<!-- TOAST -->
+<div id="tst"></div>
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- MODAL PRODUCTO -->
+<div class="ov" id="mprod">
+  <div class="modal">
+    <div class="mh"><h3 id="mptitle">Nuevo Producto</h3><button class="mx" onclick="cm('mprod')">✕</button></div>
+    <div class="fr c1"><div class="fg"><label>Nombre del Producto *</label><input id="p-nombre" placeholder="Ej: Castrol GTX 20W-50 1L"></div></div>
+    <div class="fr">
+      <div class="fg"><label>Categoría *</label><select id="p-cat"></select></div>
+      <div class="fg"><label>Icono (emoji)</label><input id="p-ico" placeholder="🛢️" maxlength="4"></div>
+    </div>
+    <div class="fr c3">
+      <div class="fg"><label>Precio Compra (Q)</label><input id="p-costo" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="fg"><label>Precio Venta (Q) *</label><input id="p-precio" type="number" min="0" step="0.01" placeholder="0.00"></div>
+      <div class="fg"><label>Unidad</label><select id="p-unidad"><option>Unidad</option><option>Litro</option><option>Galón</option><option>Par</option><option>Juego</option><option>Kit</option><option>Blister</option><option>Tarro</option><option>Spray</option></select></div>
+    </div>
+    <div class="fr">
+      <div class="fg"><label>Stock Actual</label><input id="p-stock" type="number" min="0" placeholder="0"></div>
+      <div class="fg"><label>Stock Mínimo (alerta)</label><input id="p-stockmin" type="number" min="0" placeholder="3"></div>
+    </div>
+    <div class="fr c1"><div class="fg"><label>Descripción / Notas</label><textarea id="p-desc" placeholder="Notas adicionales..."></textarea></div></div>
+    <div class="mf">
+      <button class="btn bg" onclick="cm('mprod')">Cancelar</button>
+      <button class="btn ba" onclick="saveProd()">✓ Guardar Producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AJUSTE STOCK -->
+<div class="ov" id="majuste">
+  <div class="modal" style="max-width:420px">
+    <div class="mh"><h3>📦 Ajustar Stock</h3><button class="mx" onclick="cm('majuste')">✕</button></div>
+    <div class="ali mb3">Producto: <strong id="ajuste-nm"></strong></div>
+    <div class="fr">
+      <div class="fg"><label>Tipo de Movimiento</label>
+        <select id="ajuste-tipo">
+          <option value="entrada">Entrada (compra/recepción)</option>
+          <option value="salida">Salida (pérdida/devolución)</option>
+          <option value="fijo">Fijar cantidad exacta</option>
+        </select>
+      </div>
+      <div class="fg"><label>Cantidad</label><input id="ajuste-qty" type="number" min="0" placeholder="0"></div>
+    </div>
+    <div class="fr c1"><div class="fg"><label>Motivo / Nota</label><input id="ajuste-motivo" placeholder="Ej: Compra proveedor, ajuste inventario..."></div></div>
+    <div class="mf">
+      <button class="btn bg" onclick="cm('majuste')">Cancelar</button>
+      <button class="btn ba" onclick="confirmAjuste()">✓ Confirmar Ajuste</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VER FACTURA -->
+<div class="ov" id="mfac">
+  <div class="modal mlg">
+    <div class="mh noprint"><h3>🧾 Detalle de Factura</h3><button class="mx" onclick="cm('mfac')">✕</button></div>
+    <div id="facprint"></div>
+    <div class="mf noprint">
+      <button class="btn bg" onclick="cm('mfac')">Cerrar</button>
+      <button class="btn bi" onclick="window.print()">🖨️ Imprimir</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VENTA OK -->
+<div class="ov" id="mventaok">
+  <div class="modal mlg">
+    <div class="mh"><h3>✅ Venta Registrada</h3><button class="mx" onclick="cm('mventaok')">✕</button></div>
+    <div id="ventaok-body"></div>
+    <div class="mf">
+      <button class="btn bg" onclick="cm('mventaok')">Cerrar</button>
+      <button class="btn bi" onclick="printLastSale()">🖨️ Imprimir Factura</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR PELIGRO -->
+<div class="ov" id="mdanger">
+  <div class="modal" style="max-width:400px">
+    <div class="mh"><h3 id="mdanger-title">⚠️ Confirmar Acción</h3><button class="mx" onclick="cm('mdanger')">✕</button></div>
+    <p id="mdanger-msg" style="color:var(--t2);font-size:.85rem;line-height:1.6;margin-bottom:4px"></p>
+    <div class="mf">
+      <button class="btn bg" onclick="cm('mdanger')">Cancelar</button>
+      <button class="btn bd" id="mdanger-btn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════
+const CATS = [
+  'Aceites Motor Carro','Aceites Motor Moto','Aceites Transmisión',
+  'Filtros','Refrigerantes y Líquidos','Baterías','Bujías',
+  'Frenos y Pastillas','Cadenas y Transmisión','Accesorios Moto',
+  'Cascos y Protección','Accesorios Carro','Eléctricos',
+  'Grasas y Aditivos','Limpieza y Detailing','Herramientas','Llantas y Neumáticos'
+];
+
+const DB = {
+  productos: [],
+  ventas: [],
+  movimientos: [],
+  cfg: {
+    negocio: 'Ferreteria Garcia',
+    tel: '',
+    dir: '',
+    nextFac: 1001,
+    backupAuto: true,
+    backupMin: 30,
+    lastBackup: null
+  }
+};
+
+const PROD_DEFAULT = [
+  // Aceites Motor Carro
+  {id:'P001',n:'Castrol GTX 20W-50 (1L)',cat:'Aceites Motor Carro',costo:30,venta:45,stock:24,smin:5,u:'Litro',ico:'🛢️'},
+  {id:'P002',n:'Castrol GTX 20W-50 (Galón)',cat:'Aceites Motor Carro',costo:100,venta:150,stock:12,smin:3,u:'Galón',ico:'🛢️'},
+  {id:'P003',n:'Havoline 20W-50 (1L)',cat:'Aceites Motor Carro',costo:28,venta:40,stock:18,smin:5,u:'Litro',ico:'🛢️'},
+  {id:'P004',n:'Mobil Super 20W-50 (1L)',cat:'Aceites Motor Carro',costo:32,venta:48,stock:15,smin:5,u:'Litro',ico:'🛢️'},
+  {id:'P005',n:'Mobil 1 Sintético 5W-30 (1L)',cat:'Aceites Motor Carro',costo:85,venta:120,stock:8,smin:3,u:'Litro',ico:'🛢️'},
+  {id:'P006',n:'Pennzoil 20W-50 (1L)',cat:'Aceites Motor Carro',costo:29,venta:42,stock:20,smin:5,u:'Litro',ico:'🛢️'},
+  {id:'P007',n:'Shell Helix HX3 20W-50 (1L)',cat:'Aceites Motor Carro',costo:30,venta:45,stock:16,smin:5,u:'Litro',ico:'🛢️'},
+  {id:'P008',n:'Valvoline 20W-50 (1L)',cat:'Aceites Motor Carro',costo:28,venta:40,stock:14,smin:5,u:'Litro',ico:'🛢️'},
+  // Aceites Motor Moto
+  {id:'P009',n:'Castrol Power1 4T 20W-40 (1L)',cat:'Aceites Motor Moto',costo:45,venta:65,stock:20,smin:4,u:'Litro',ico:'🏍️'},
+  {id:'P010',n:'Motul 3000 4T 20W-40 (1L)',cat:'Aceites Motor Moto',costo:48,venta:70,stock:15,smin:4,u:'Litro',ico:'🏍️'},
+  {id:'P011',n:'Motul 7100 4T 10W-40 (1L)',cat:'Aceites Motor Moto',costo:95,venta:140,stock:8,smin:2,u:'Litro',ico:'🏍️'},
+  {id:'P012',n:'Shell Advance 4T 20W-40 (1L)',cat:'Aceites Motor Moto',costo:40,venta:60,stock:18,smin:4,u:'Litro',ico:'🏍️'},
+  {id:'P013',n:'Aceite 2T (1L)',cat:'Aceites Motor Moto',costo:22,venta:35,stock:25,smin:6,u:'Litro',ico:'🏍️'},
+  {id:'P014',n:'Yamalube 4T 20W-40 (1L)',cat:'Aceites Motor Moto',costo:42,venta:62,stock:12,smin:4,u:'Litro',ico:'🏍️'},
+  // Aceites Transmisión
+  {id:'P015',n:'Aceite ATF Dexron III (1L)',cat:'Aceites Transmisión',costo:35,venta:50,stock:10,smin:3,u:'Litro',ico:'⚙️'},
+  {id:'P016',n:'Aceite ATF Dexron III (Galón)',cat:'Aceites Transmisión',costo:110,venta:160,stock:6,smin:2,u:'Galón',ico:'⚙️'},
+  {id:'P017',n:'Aceite Caja Manual 80W-90 (1L)',cat:'Aceites Transmisión',costo:30,venta:45,stock:10,smin:3,u:'Litro',ico:'⚙️'},
+  {id:'P018',n:'Aceite Diferencial 85W-140 (1L)',cat:'Aceites Transmisión',costo:35,venta:50,stock:8,smin:2,u:'Litro',ico:'⚙️'},
+  // Filtros
+  {id:'P019',n:'Filtro Aceite Fram PH3600',cat:'Filtros',costo:22,venta:35,stock:20,smin:5,u:'Unidad',ico:'🔽'},
+  {id:'P020',n:'Filtro Aceite WIX 51348',cat:'Filtros',costo:26,venta:40,stock:15,smin:5,u:'Unidad',ico:'🔽'},
+  {id:'P021',n:'Filtro Aceite Moto universal',cat:'Filtros',costo:16,venta:25,stock:18,smin:5,u:'Unidad',ico:'🔽'},
+  {id:'P022',n:'Filtro Aire Carro',cat:'Filtros',costo:35,venta:55,stock:12,smin:3,u:'Unidad',ico:'🔽'},
+  {id:'P023',n:'Filtro Aire Moto',cat:'Filtros',costo:28,venta:45,stock:10,smin:3,u:'Unidad',ico:'🔽'},
+  {id:'P024',n:'Filtro Combustible',cat:'Filtros',costo:25,venta:40,stock:12,smin:3,u:'Unidad',ico:'🔽'},
+  {id:'P025',n:'Filtro Cabina',cat:'Filtros',costo:38,venta:60,stock:8,smin:2,u:'Unidad',ico:'🔽'},
+  // Refrigerantes
+  {id:'P026',n:'Refrigerante Peak (1 galón)',cat:'Refrigerantes y Líquidos',costo:50,venta:75,stock:10,smin:3,u:'Galón',ico:'💧'},
+  {id:'P027',n:'Refrigerante Prestone (1 galón)',cat:'Refrigerantes y Líquidos',costo:58,venta:85,stock:8,smin:3,u:'Galón',ico:'💧'},
+  {id:'P028',n:'Líquido de Frenos DOT 3 (0.5L)',cat:'Refrigerantes y Líquidos',costo:18,venta:30,stock:15,smin:4,u:'Unidad',ico:'💧'},
+  {id:'P029',n:'Líquido de Frenos DOT 4 (0.5L)',cat:'Refrigerantes y Líquidos',costo:22,venta:35,stock:10,smin:3,u:'Unidad',ico:'💧'},
+  {id:'P030',n:'Líquido Dirección Hidráulica (1L)',cat:'Refrigerantes y Líquidos',costo:30,venta:45,stock:8,smin:2,u:'Litro',ico:'💧'},
+  // Baterías
+  {id:'P031',n:'Batería 12V 7Ah (Moto)',cat:'Baterías',costo:190,venta:280,stock:6,smin:2,u:'Unidad',ico:'🔋'},
+  {id:'P032',n:'Batería 12V 9Ah (Moto)',cat:'Baterías',costo:210,venta:320,stock:4,smin:2,u:'Unidad',ico:'🔋'},
+  {id:'P033',n:'Batería Bosch 12V 60Ah',cat:'Baterías',costo:450,venta:650,stock:4,smin:1,u:'Unidad',ico:'🔋'},
+  {id:'P034',n:'Batería Bosch 12V 75Ah',cat:'Baterías',costo:560,venta:800,stock:3,smin:1,u:'Unidad',ico:'🔋'},
+  {id:'P035',n:'Batería Century 12V 60Ah',cat:'Baterías',costo:420,venta:600,stock:4,smin:1,u:'Unidad',ico:'🔋'},
+  // Bujías
+  {id:'P036',n:'Bujía NGK (unidad)',cat:'Bujías',costo:15,venta:25,stock:40,smin:10,u:'Unidad',ico:'⚡'},
+  {id:'P037',n:'Bujía Bosch (unidad)',cat:'Bujías',costo:14,venta:22,stock:30,smin:10,u:'Unidad',ico:'⚡'},
+  {id:'P038',n:'Bujía Denso (unidad)',cat:'Bujías',costo:15,venta:24,stock:25,smin:8,u:'Unidad',ico:'⚡'},
+  {id:'P039',n:'Bujía Iridium NGK',cat:'Bujías',costo:55,venta:85,stock:12,smin:4,u:'Unidad',ico:'⚡'},
+  {id:'P040',n:'Bujía Champion (unidad)',cat:'Bujías',costo:14,venta:22,stock:20,smin:8,u:'Unidad',ico:'⚡'},
+  // Frenos
+  {id:'P041',n:'Pastillas Freno Delantero Carro',cat:'Frenos y Pastillas',costo:80,venta:120,stock:8,smin:2,u:'Juego',ico:'🛑'},
+  {id:'P042',n:'Pastillas Freno Trasero Carro',cat:'Frenos y Pastillas',costo:65,venta:100,stock:8,smin:2,u:'Juego',ico:'🛑'},
+  {id:'P043',n:'Pastillas Freno Moto',cat:'Frenos y Pastillas',costo:48,venta:75,stock:10,smin:3,u:'Juego',ico:'🛑'},
+  {id:'P044',n:'Disco de Freno Carro',cat:'Frenos y Pastillas',costo:120,venta:180,stock:4,smin:1,u:'Unidad',ico:'🛑'},
+  {id:'P045',n:'Zapatas de Freno',cat:'Frenos y Pastillas',costo:58,venta:90,stock:6,smin:2,u:'Juego',ico:'🛑'},
+  {id:'P046',n:'Banda de Freno Moto',cat:'Frenos y Pastillas',costo:22,venta:35,stock:12,smin:3,u:'Unidad',ico:'🛑'},
+  // Cadenas
+  {id:'P047',n:'Cadena Moto 428 (110 esl.)',cat:'Cadenas y Transmisión',costo:60,venta:95,stock:10,smin:3,u:'Unidad',ico:'🔗'},
+  {id:'P048',n:'Cadena Moto 428 (120 esl.)',cat:'Cadenas y Transmisión',costo:68,venta:105,stock:8,smin:2,u:'Unidad',ico:'🔗'},
+  {id:'P049',n:'Cadena Moto 520 (120 esl.)',cat:'Cadenas y Transmisión',costo:80,venta:125,stock:6,smin:2,u:'Unidad',ico:'🔗'},
+  {id:'P050',n:'Piñón Delantero 14T',cat:'Cadenas y Transmisión',costo:40,venta:65,stock:8,smin:3,u:'Unidad',ico:'🔗'},
+  {id:'P051',n:'Corona Trasera Moto',cat:'Cadenas y Transmisión',costo:75,venta:120,stock:6,smin:2,u:'Unidad',ico:'🔗'},
+  {id:'P052',n:'Kit de Arrastre Completo',cat:'Cadenas y Transmisión',costo:160,venta:250,stock:4,smin:2,u:'Kit',ico:'🔗'},
+  // Accesorios Moto
+  {id:'P053',n:'Cable de Freno Moto',cat:'Accesorios Moto',costo:22,venta:35,stock:15,smin:4,u:'Unidad',ico:'🏍️'},
+  {id:'P054',n:'Cable de Clutch Moto',cat:'Accesorios Moto',costo:22,venta:35,stock:12,smin:4,u:'Unidad',ico:'🏍️'},
+  {id:'P055',n:'Maniguetas (par)',cat:'Accesorios Moto',costo:28,venta:45,stock:10,smin:3,u:'Par',ico:'🏍️'},
+  {id:'P056',n:'Retrovisor Moto',cat:'Accesorios Moto',costo:30,venta:50,stock:12,smin:3,u:'Unidad',ico:'🏍️'},
+  {id:'P057',n:'Guantes Moto',cat:'Accesorios Moto',costo:55,venta:85,stock:8,smin:2,u:'Par',ico:'🏍️'},
+  {id:'P058',n:'Manillar Universal',cat:'Accesorios Moto',costo:55,venta:85,stock:6,smin:2,u:'Unidad',ico:'🏍️'},
+  // Cascos
+  {id:'P059',n:'Casco Integral',cat:'Cascos y Protección',costo:230,venta:350,stock:6,smin:2,u:'Unidad',ico:'⛑️'},
+  {id:'P060',n:'Casco Half Face',cat:'Cascos y Protección',costo:160,venta:250,stock:8,smin:2,u:'Unidad',ico:'⛑️'},
+  {id:'P061',n:'Casco Abierto',cat:'Cascos y Protección',costo:120,venta:190,stock:6,smin:2,u:'Unidad',ico:'⛑️'},
+  {id:'P062',n:'Chaleco Reflectivo',cat:'Cascos y Protección',costo:35,venta:55,stock:10,smin:3,u:'Unidad',ico:'⛑️'},
+  // Accesorios Carro
+  {id:'P063',n:'Limpiabrisas (unidad)',cat:'Accesorios Carro',costo:28,venta:45,stock:15,smin:4,u:'Unidad',ico:'🚗'},
+  {id:'P064',n:'Limpiabrisas (par)',cat:'Accesorios Carro',costo:52,venta:80,stock:10,smin:3,u:'Par',ico:'🚗'},
+  {id:'P065',n:'Espejo Lateral Universal',cat:'Accesorios Carro',costo:75,venta:120,stock:6,smin:2,u:'Unidad',ico:'🚗'},
+  {id:'P066',n:'Amortiguador Delantero',cat:'Accesorios Carro',costo:180,venta:275,stock:4,smin:1,u:'Unidad',ico:'🚗'},
+  // Eléctricos
+  {id:'P067',n:'Bombillo H4 (par)',cat:'Eléctricos',costo:28,venta:45,stock:15,smin:4,u:'Par',ico:'💡'},
+  {id:'P068',n:'Bombillo LED H4 (par)',cat:'Eléctricos',costo:110,venta:175,stock:8,smin:2,u:'Par',ico:'💡'},
+  {id:'P069',n:'Fusibles Blade 10A (5u)',cat:'Eléctricos',costo:8,venta:15,stock:30,smin:8,u:'Blister',ico:'💡'},
+  {id:'P070',n:'Fusibles Blade 15A (5u)',cat:'Eléctricos',costo:8,venta:15,stock:30,smin:8,u:'Blister',ico:'💡'},
+  {id:'P071',n:'Fusibles Blade 20A (5u)',cat:'Eléctricos',costo:8,venta:15,stock:28,smin:8,u:'Blister',ico:'💡'},
+  {id:'P072',n:'Cable Batería (juego)',cat:'Eléctricos',costo:45,venta:70,stock:8,smin:2,u:'Juego',ico:'💡'},
+  {id:'P073',n:'Bombillo de Señal',cat:'Eléctricos',costo:4,venta:8,stock:40,smin:10,u:'Unidad',ico:'💡'},
+  // Grasas
+  {id:'P074',n:'Grasa Multipropósito (1 lb)',cat:'Grasas y Aditivos',costo:22,venta:35,stock:15,smin:4,u:'Tarro',ico:'🧴'},
+  {id:'P075',n:'Aditivo Motor Bardahl',cat:'Grasas y Aditivos',costo:35,venta:55,stock:10,smin:3,u:'Unidad',ico:'🧴'},
+  {id:'P076',n:'Aditivo Combustible',cat:'Grasas y Aditivos',costo:25,venta:40,stock:12,smin:3,u:'Unidad',ico:'🧴'},
+  {id:'P077',n:'WD-40 Spray 360ml',cat:'Grasas y Aditivos',costo:28,venta:45,stock:12,smin:3,u:'Spray',ico:'🧴'},
+  {id:'P078',n:'Limpiador Frenos Spray',cat:'Grasas y Aditivos',costo:35,venta:55,stock:8,smin:2,u:'Spray',ico:'🧴'},
+  // Limpieza
+  {id:'P079',n:'Shampoo para Carro (1L)',cat:'Limpieza y Detailing',costo:25,venta:40,stock:12,smin:3,u:'Litro',ico:'🧽'},
+  {id:'P080',n:'Cera Líquida (500ml)',cat:'Limpieza y Detailing',costo:35,venta:55,stock:8,smin:2,u:'Unidad',ico:'🧽'},
+  {id:'P081',n:'Silicona Tablero Spray',cat:'Limpieza y Detailing',costo:22,venta:35,stock:10,smin:3,u:'Spray',ico:'🧽'},
+  {id:'P082',n:'Desengrasante Spray',cat:'Limpieza y Detailing',costo:28,venta:45,stock:10,smin:3,u:'Spray',ico:'🧽'},
+  {id:'P083',n:'Microfibra (unidad)',cat:'Limpieza y Detailing',costo:15,venta:25,stock:20,smin:5,u:'Unidad',ico:'🧽'},
+  {id:'P084',n:'Kit Detailing Completo',cat:'Limpieza y Detailing',costo:115,venta:180,stock:4,smin:1,u:'Kit',ico:'🧽'},
+  // Herramientas
+  {id:'P085',n:'Llave Filtro de Aceite',cat:'Herramientas',costo:28,venta:45,stock:8,smin:2,u:'Unidad',ico:'🔧'},
+  {id:'P086',n:'Llave de Bujías',cat:'Herramientas',costo:25,venta:40,stock:8,smin:2,u:'Unidad',ico:'🔧'},
+  {id:'P087',n:'Destornillador Estrella',cat:'Herramientas',costo:12,venta:20,stock:10,smin:3,u:'Unidad',ico:'🔧'},
+  {id:'P088',n:'Destornillador Plano',cat:'Herramientas',costo:12,venta:20,stock:10,smin:3,u:'Unidad',ico:'🔧'},
+  {id:'P089',n:'Alicates',cat:'Herramientas',costo:22,venta:35,stock:6,smin:2,u:'Unidad',ico:'🔧'},
+  {id:'P090',n:'Inflador de Mano',cat:'Herramientas',costo:55,venta:85,stock:4,smin:1,u:'Unidad',ico:'🔧'},
+  // Llantas
+  {id:'P091',n:'Llanta Moto Del. 90/90-17',cat:'Llantas y Neumáticos',costo:185,venta:280,stock:4,smin:1,u:'Unidad',ico:'🛞'},
+  {id:'P092',n:'Llanta Moto Tra. 110/90-17',cat:'Llantas y Neumáticos',costo:210,venta:320,stock:4,smin:1,u:'Unidad',ico:'🛞'},
+  {id:'P093',n:'Neumático Carro 175/70R13',cat:'Llantas y Neumáticos',costo:230,venta:350,stock:4,smin:1,u:'Unidad',ico:'🛞'},
+  {id:'P094',n:'Neumático Carro 185/65R15',cat:'Llantas y Neumáticos',costo:280,venta:420,stock:3,smin:1,u:'Unidad',ico:'🛞'},
+  {id:'P095',n:'Válvula Neumático (par)',cat:'Llantas y Neumáticos',costo:8,venta:15,stock:20,smin:6,u:'Par',ico:'🛞'},
+];
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let fsDir = null;
+let autoTimer = null;
+let cart = [];
+let posQ = '';
+let posCat = 'Todas';
+let editId = null;
+let ajusteId = null;
+let lastVenta = null;
+let curPage = 'dashboard';
+// Inventario filtros
+let invQ = '', invCat = 'Todas', invStk = 'todos';
+// Facturas filtros
+let facQ = '', facDesde = '', facHasta = '';
+// Reportes tab
+let repTab = 'diario';
+let repFecha = '';
+
+// ══════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════
+const Q = v => 'Q' + (+v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const hoy = () => new Date().toISOString().slice(0, 10);
+const fechaL = iso => { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString('es-GT'); };
+const horaL = iso => { if (!iso) return ''; const d = new Date(iso); return d.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' }); };
+const gid = () => 'X' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 5).toUpperCase();
+
+function sbadge(p) {
+  if (p.stock <= 0) return '<span class="badge bout">Agotado</span>';
+  if (p.stock <= p.smin) return '<span class="badge blow">Stock Bajo</span>';
+  return '<span class="badge bok">OK</span>';
+}
+
+// ══════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════
+function toast(msg, tipo = 'info') {
+  const c = document.getElementById('tst');
+  const t = document.createElement('div');
+  t.className = 'titem ' + tipo;
+  const ic = { ok: '✅', err: '❌', info: 'ℹ️' };
+  t.innerHTML = `<span>${ic[tipo] || 'ℹ️'}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+// ══════════════════════════════════════════════════
+// MODALS
+// ══════════════════════════════════════════════════
+function om(id) { document.getElementById(id).classList.add('show'); }
+function cm(id) { document.getElementById(id).classList.remove('show'); }
+
+function danger(title, msg, fn) {
+  document.getElementById('mdanger-title').textContent = title;
+  document.getElementById('mdanger-msg').textContent = msg;
+  const btn = document.getElementById('mdanger-btn');
+  btn.onclick = () => { cm('mdanger'); fn(); };
+  om('mdanger');
+}
+
+// ══════════════════════════════════════════════════
+// FILE SYSTEM
+// ══════════════════════════════════════════════════
+const FS_OK = 'showDirectoryPicker' in window;
+
+async function connectFS() {
+  if (!FS_OK) { toast('Tu navegador no soporta guardar en disco. Usá Chrome o Edge.', 'err'); return; }
+  try {
+    fsDir = await window.showDirectoryPicker({ mode: 'readwrite' });
+    updateFSUI();
+    const ok = await loadFromDisk();
+    if (ok) toast('✅ Carpeta conectada — datos cargados', 'ok');
+    else { await saveData(); toast('✅ Carpeta conectada — archivo creado', 'ok'); }
+    if (DB.cfg.backupAuto) startAutoBackup();
+    go(curPage);
+  } catch (e) {
+    if (e.name !== 'AbortError') toast('Error: ' + e.message, 'err');
+  }
+}
+
+async function saveData() {
+  saveLS();
+  if (!fsDir) { toast('Guardado en navegador (conectá carpeta para guardar en disco)', 'info'); return; }
+  try {
+    const fh = await fsDir.getFileHandle('datos.json', { create: true });
+    const w = await fh.createWritable();
+    await w.write(JSON.stringify(DB, null, 2));
+    await w.close();
+    addLog('Datos guardados → datos.json', 'ok');
+    toast('💾 Guardado en disco', 'ok');
+  } catch (e) { toast('Error guardando: ' + e.message, 'err'); }
+}
+
+async function loadFromDisk() {
+  if (!fsDir) return false;
+  try {
+    const fh = await fsDir.getFileHandle('datos.json');
+    const file = await fh.getFile();
+    const data = JSON.parse(await file.text());
+    if (data.cfg) Object.assign(DB.cfg, data.cfg);
+    if (data.productos?.length) DB.productos = data.productos;
+    if (data.ventas?.length) DB.ventas = data.ventas;
+    if (data.movimientos?.length) DB.movimientos = data.movimientos;
+    addLog('Datos cargados: ' + DB.productos.length + ' productos, ' + DB.ventas.length + ' ventas', 'ok');
+    return true;
+  } catch { return false; }
+}
+
+async function doBackup(manual = false) {
+  saveLS();
+  const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const fn = 'backup_' + ts + '.json';
+  const data = JSON.stringify({ ...DB, _backupFecha: new Date().toISOString() }, null, 2);
+  if (fsDir) {
+    try {
+      const fh = await fsDir.getFileHandle(fn, { create: true });
+      const w = await fh.createWritable();
+      await w.write(data); await w.close();
+      DB.cfg.lastBackup = new Date().toISOString();
+      saveLS();
+      addLog('Backup creado: ' + fn, 'ok');
+      if (manual) toast('✅ Backup: ' + fn, 'ok');
+    } catch (e) { addLog('Error backup: ' + e.message, 'err'); }
+  } else {
+    dlJSON(data, fn);
+    if (manual) toast('📥 Backup descargado: ' + fn, 'ok');
+  }
+}
+
+function startAutoBackup() {
+  if (autoTimer) clearInterval(autoTimer);
+  const m = DB.cfg.backupMin || 30;
+  autoTimer = setInterval(() => doBackup(false), m * 60000);
+  addLog('Auto-backup activado cada ' + m + ' minutos', 'inf');
+}
+
+async function importBackup() {
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = '.json';
+  inp.onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      danger('⚠️ Restaurar Backup', `¿Restaurar "${f.name}"? Esto reemplazará TODOS los datos actuales.`, () => {
+        if (data.cfg) Object.assign(DB.cfg, data.cfg);
+        DB.productos = data.productos || [];
+        DB.ventas = data.ventas || [];
+        DB.movimientos = data.movimientos || [];
+        saveLS();
+        addLog('Backup restaurado: ' + f.name, 'ok');
+        toast('✅ Backup restaurado correctamente', 'ok');
+        go(curPage);
+      });
+    } catch (e) { toast('Error leyendo backup: ' + e.message, 'err'); }
+  };
+  inp.click();
+}
+
+function dlJSON(data, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([typeof data === 'string' ? data : JSON.stringify(data, null, 2)], { type: 'application/json' }));
+  a.download = name; a.click();
+}
+
+function dlCSV(rows, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([rows], { type: 'text/csv;charset=utf-8' }));
+  a.download = name; a.click();
+}
+
+function saveLS() {
+  try { localStorage.setItem('aceiteraDB', JSON.stringify(DB)); } catch { }
+}
+
+function loadLS() {
+  try {
+    const raw = localStorage.getItem('aceiteraDB');
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (d.cfg) Object.assign(DB.cfg, d.cfg);
+    if (d.productos?.length) DB.productos = d.productos;
+    if (d.ventas?.length) DB.ventas = d.ventas;
+    if (d.movimientos?.length) DB.movimientos = d.movimientos;
+    return true;
+  } catch { return false; }
+}
+
+function updateFSUI() {
+  const pill = document.getElementById('fspill');
+  const lbl = document.getElementById('fslabel');
+  if (fsDir) { pill.classList.add('con'); lbl.textContent = '📁 ' + fsDir.name; }
+  else { pill.classList.remove('con'); lbl.textContent = 'Conectar carpeta disco'; }
+}
+
+async function toggleFS() {
+  if (fsDir) {
+    danger('Desconectar Carpeta', '¿Desconectar la carpeta del disco?', () => { fsDir = null; updateFSUI(); toast('Carpeta desconectada', 'info'); });
+  } else { await connectFS(); }
+}
+
+// ══════════════════════════════════════════════════
+// LOG
+// ══════════════════════════════════════════════════
+const logs = [];
+function addLog(msg, tipo = 'inf') {
+  const ts = new Date().toLocaleTimeString('es-GT');
+  logs.push({ ts, msg, tipo });
+  const el = document.getElementById('blogcontent');
+  if (el) {
+    const d = document.createElement('div');
+    d.className = 'l' + tipo; d.textContent = '[' + ts + '] ' + msg;
+    el.appendChild(d); el.scrollTop = el.scrollHeight;
+  }
+}
+
+// ══════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════
+const PAGE_TITLES = {
+  dashboard: '📊 Dashboard', ventas: '🛒 Nueva Venta',
+  inventario: '📦 Inventario', facturas: '🧾 Facturas',
+  reportes: '📈 Reportes', backup: '💾 Backup', config: '⚙️ Configuración'
+};
+
+function go(page) {
+  curPage = page;
+  document.querySelectorAll('.ni').forEach(el => el.classList.remove('on'));
+  const nav = document.getElementById('nav-' + page);
+  if (nav) nav.classList.add('on');
+  document.getElementById('ptitle').textContent = PAGE_TITLES[page] || page;
+  const c = document.getElementById('content');
+  c.innerHTML = '';
+  const R = { dashboard: renderDash, ventas: renderVentas, inventario: renderInv, facturas: renderFacs, reportes: renderReps, backup: renderBackup, config: renderConfig };
+  if (R[page]) R[page]();
+}
+
+// ══════════════════════════════════════════════════
+// CHARTS
+// ══════════════════════════════════════════════════
+function prepCanvas(id) {
+  const c = document.getElementById(id);
+  if (!c) return null;
+  const W = c.parentElement.clientWidth || 400;
+  c.width = W; c.height = 200;
+  return c;
+}
+
+function drawLine(id, labels, vals, color = '#f59e0b') {
+  const c = prepCanvas(id); if (!c) return;
+  const ctx = c.getContext('2d'), W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+  const max = Math.max(...vals, 1);
+  const pL = 52, pR = 10, pT = 10, pB = 32;
+  const cW = W - pL - pR, cH = H - pT - pB;
+  // grid
+  for (let i = 0; i <= 4; i++) {
+    const y = pT + cH * (1 - i / 4);
+    ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pL + cW, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(max * i / 4), pL - 4, y + 3);
+  }
+  const n = vals.length;
+  const pts = vals.map((v, i) => ({ x: pL + (n > 1 ? cW / (n - 1) * i : cW / 2), y: pT + cH * (1 - v / max) }));
+  // area
+  const g = ctx.createLinearGradient(0, pT, 0, pT + cH);
+  g.addColorStop(0, color + '44'); g.addColorStop(1, color + '05');
+  ctx.beginPath(); ctx.moveTo(pts[0].x, pT + cH);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.lineTo(pts[pts.length - 1].x, pT + cH); ctx.closePath();
+  ctx.fillStyle = g; ctx.fill();
+  // line
+  ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
+  pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+  ctx.stroke();
+  // dots + labels
+  pts.forEach((p, i) => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = color; ctx.fill();
+    ctx.strokeStyle = '#1a1d27'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.5)'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(labels[i] || '', p.x, pT + cH + 18);
+  });
+}
+
+function drawBar(id, labels, vals, colors) {
+  const c = prepCanvas(id); if (!c) return;
+  const ctx = c.getContext('2d'), W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+  if (!vals.length) return;
+  const max = Math.max(...vals, 1);
+  const pL = 50, pR = 10, pT = 10, pB = 38;
+  const cW = W - pL - pR, cH = H - pT - pB;
+  for (let i = 0; i <= 4; i++) {
+    const y = pT + cH * (1 - i / 4);
+    ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pL, y); ctx.lineTo(pL + cW, y); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText(Math.round(max * i / 4), pL - 4, y + 3);
+  }
+  const gap = cW / vals.length;
+  const bW = Math.min(gap * 0.65, 52);
+  vals.forEach((v, i) => {
+    const x = pL + gap * i + (gap - bW) / 2;
+    const bH = cH * (v / max);
+    const y = pT + cH - bH;
+    const col = colors ? colors[i % colors.length] : '#f59e0b';
+    const g = ctx.createLinearGradient(0, y, 0, y + bH);
+    g.addColorStop(0, col); g.addColorStop(1, col + '44');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.roundRect(x, y, bW, bH, 4); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+    const l = labels[i] || '';
+    ctx.fillText(l.length > 9 ? l.slice(0, 8) + '…' : l, pL + gap * i + gap / 2, H - 6);
+  });
+}
+
+function drawDonut(id, labels, vals, colors) {
+  const c = prepCanvas(id); if (!c) return;
+  const ctx = c.getContext('2d'), W = c.width, H = c.height;
+  ctx.clearRect(0, 0, W, H);
+  const total = vals.reduce((a, b) => a + b, 0);
+  if (!total) {
+    ctx.fillStyle = 'rgba(255,255,255,.2)'; ctx.font = '13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Sin datos de ventas', W / 2, H / 2); return;
+  }
+  const cx = W * 0.35, cy = H / 2, r = Math.min(cx, cy) - 14, ri = r * 0.58;
+  let angle = -Math.PI / 2;
+  vals.forEach((v, i) => {
+    const sl = 2 * Math.PI * v / total;
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, angle, angle + sl); ctx.closePath();
+    ctx.fillStyle = colors[i % colors.length]; ctx.fill();
+    angle += sl;
+  });
+  ctx.beginPath(); ctx.arc(cx, cy, ri, 0, Math.PI * 2);
+  ctx.fillStyle = '#1a1d27'; ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.font = 'bold 12px DM Sans,sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(total + ' uds', cx, cy + 4);
+  const lx = W * 0.66;
+  labels.slice(0, 8).forEach((l, i) => {
+    const y = 10 + i * 22;
+    ctx.fillStyle = colors[i % colors.length]; ctx.fillRect(lx, y, 10, 10);
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '9px DM Sans,sans-serif'; ctx.textAlign = 'left';
+    const pct = Math.round(vals[i] / total * 100);
+    ctx.fillText((l.length > 15 ? l.slice(0, 14) + '…' : l) + ' ' + pct + '%', lx + 13, y + 9);
+  });
+}
+
+const COLORS = ['#f59e0b', '#3b82f6', '#22c55e', '#a855f7', '#ef4444', '#06b6d4', '#f97316', '#84cc16'];
+
+// ══════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════
+function renderDash() {
+  const h = hoy();
+  const vh = DB.ventas.filter(v => v.fecha.slice(0, 10) === h);
+  const vm = DB.ventas.filter(v => v.fecha.slice(0, 7) === h.slice(0, 7));
+  const th = vh.reduce((s, v) => s + v.total, 0);
+  const tm = vm.reduce((s, v) => s + v.total, 0);
+  const gan = vh.reduce((s, v) => s + v.items.reduce((a, it) => a + (it.precio - (it.costo || 0)) * it.qty, 0), 0);
+  const bajo = DB.productos.filter(p => p.stock > 0 && p.stock <= p.smin).length;
+  const ago = DB.productos.filter(p => p.stock <= 0).length;
+
+  // ventas últimos 7 días
+  const d7 = [], v7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = d.toISOString().slice(0, 10);
+    d7.push(k.slice(5));
+    v7.push(DB.ventas.filter(v => v.fecha.slice(0, 10) === k).reduce((s, v) => s + v.total, 0));
+  }
+
+  // top prods
+  const pc = {};
+  DB.ventas.forEach(v => v.items.forEach(it => { pc[it.n] = (pc[it.n] || 0) + it.qty; }));
+  const top = Object.entries(pc).sort((a, b) => b[1] - a[1]).slice(0, 7);
+
+  // cats
+  const catV = {};
+  DB.ventas.forEach(v => v.items.forEach(it => {
+    const p = DB.productos.find(x => x.id === it.id);
+    if (p) catV[p.cat] = (catV[p.cat] || 0) + it.qty;
+  }));
+  const topCats = Object.entries(catV).sort((a, b) => b[1] - a[1]).slice(0, 7);
+
+  const cnt = document.getElementById('content');
+  cnt.innerHTML = `
+  <div class="sgrid">
+    <div class="sc"><span class="sico">💰</span><div class="slbl">Ventas Hoy</div><div class="sval">${Q(th)}</div><div class="ssub">${vh.length} transacciones</div></div>
+    <div class="sc g"><span class="sico">📅</span><div class="slbl">Ventas Este Mes</div><div class="sval">${Q(tm)}</div><div class="ssub">${vm.length} transacciones</div></div>
+    <div class="sc b"><span class="sico">📊</span><div class="slbl">Ganancia Estimada Hoy</div><div class="sval">${Q(gan)}</div><div class="ssub">precio venta − costo</div></div>
+    <div class="sc"><span class="sico">📦</span><div class="slbl">Productos en Catálogo</div><div class="sval">${DB.productos.length}</div><div class="ssub">${CATS.length} categorías</div></div>
+    <div class="sc r"><span class="sico">⚠️</span><div class="slbl">Stock Bajo / Agotados</div><div class="sval">${bajo + ago}</div><div class="ssub">${bajo} bajo · ${ago} agotados</div></div>
+    <div class="sc p"><span class="sico">🧾</span><div class="slbl">Total Facturas</div><div class="sval">${DB.ventas.length}</div><div class="ssub">todas las ventas</div></div>
+  </div>
+  ${(bajo > 0 || ago > 0) ? `<div class="alw mb3">⚠️ <strong>${bajo} producto(s) con stock bajo</strong> y <strong>${ago} agotados</strong>. <span style="cursor:pointer;text-decoration:underline" onclick="go('inventario')">Ver inventario →</span></div>` : ''}
+  <div class="cgrid">
+    <div class="cc wide"><h3>📈 Ventas últimos 7 días (Q)</h3><div><canvas id="ch-line"></canvas></div></div>
+    <div class="cc"><h3>🏷️ Productos más vendidos</h3><div><canvas id="ch-donut"></canvas></div></div>
+    <div class="cc"><h3>📦 Ventas por categoría (unidades)</h3><div><canvas id="ch-bar"></canvas></div></div>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>🕒 Últimas 10 Ventas</h3><button class="btn bg bsm" onclick="go('facturas')">Ver todas →</button></div>
+    <table><thead><tr><th>Factura</th><th>Fecha</th><th>Cliente</th><th>Items</th><th>Pago</th><th>Total</th></tr></thead>
+    <tbody>${DB.ventas.slice(-10).reverse().map(v => `
+      <tr onclick="showFac('${v.id}')" style="cursor:pointer">
+        <td class="tacc bold">#${v.nfac}</td>
+        <td>${fechaL(v.fecha)} ${horaL(v.fecha)}</td>
+        <td>${v.cliente || '—'}</td>
+        <td>${v.items.length} item(s)</td>
+        <td><span class="badge binf">${v.pago}</span></td>
+        <td class="bold tacc">${Q(v.total)}</td>
+      </tr>`).join('') || '<tr><td colspan="6" class="tempty">Aún no hay ventas registradas. ¡Registrá la primera!</td></tr>'}</tbody>
+    </table>
+  </div>`;
+
+  requestAnimationFrame(() => {
+    drawLine('ch-line', d7, v7);
+    if (top.length) drawDonut('ch-donut', top.map(x => x[0]), top.map(x => x[1]), COLORS);
+    else drawDonut('ch-donut', [], [], COLORS);
+    if (topCats.length) drawBar('ch-bar', topCats.map(x => x[0]), topCats.map(x => x[1]), COLORS);
+    else drawBar('ch-bar', ['Sin ventas'], [0], COLORS);
+  });
+}
+
+// ══════════════════════════════════════════════════
+// INVENTARIO
+// ══════════════════════════════════════════════════
+function renderInv() {
+  const ago = DB.productos.filter(p => p.stock <= 0).length;
+  const bajo = DB.productos.filter(p => p.stock > 0 && p.stock <= p.smin).length;
+  const ok = DB.productos.filter(p => p.stock > p.smin).length;
+  const valC = DB.productos.reduce((s, p) => s + p.stock * p.costo, 0);
+
+  // Set default filter dates if empty
+  if (!facDesde) facDesde = hoy().slice(0, 7) + '-01';
+  if (!facHasta) facHasta = hoy();
+
+  const allCats = ['Todas', ...new Set(DB.productos.map(p => p.cat))].sort((a, b) => a === 'Todas' ? -1 : b === 'Todas' ? 1 : a.localeCompare(b));
+
+  document.getElementById('content').innerHTML = `
+  <div class="sgrid" style="grid-template-columns:repeat(4,1fr)">
+    <div class="sc g"><div class="slbl">Stock OK</div><div class="sval">${ok}</div><div class="ssub">productos</div></div>
+    <div class="sc"><div class="slbl">Stock Bajo</div><div class="sval">${bajo}</div><div class="ssub">por reabastecer</div></div>
+    <div class="sc r"><div class="slbl">Agotados</div><div class="sval">${ago}</div><div class="ssub">sin stock</div></div>
+    <div class="sc b"><div class="slbl">Valor al Costo</div><div class="sval">${Q(valC)}</div><div class="ssub">inventario total</div></div>
+  </div>
+  <div class="fbar">
+    <input class="fsearch" id="invQ" placeholder="🔍 Buscar producto o categoría..." value="${invQ}" oninput="invQ=this.value;drawInvTable()">
+    <select id="invCat" onchange="invCat=this.value;drawInvTable()">${allCats.map(c => `<option value="${c}" ${invCat === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+    <select id="invStk" onchange="invStk=this.value;drawInvTable()">
+      <option value="todos" ${invStk === 'todos' ? 'selected' : ''}>Todo el stock</option>
+      <option value="ok" ${invStk === 'ok' ? 'selected' : ''}>Stock OK</option>
+      <option value="bajo" ${invStk === 'bajo' ? 'selected' : ''}>Stock Bajo</option>
+      <option value="ago" ${invStk === 'ago' ? 'selected' : ''}>Agotados</option>
+    </select>
+    <button class="btn ba bsm" onclick="openNewProd()">+ Nuevo Producto</button>
+    <button class="btn bg bsm" onclick="exportInvCSV()">📥 Exportar CSV</button>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>📦 Catálogo de Productos</h3><span class="tmut" id="invcount"></span></div>
+    <table><thead><tr><th></th><th>Nombre</th><th>Categoría</th><th>Costo</th><th>Precio Venta</th><th>Margen</th><th>Stock</th><th>Estado</th><th>Acciones</th></tr></thead>
+    <tbody id="invtbody"></tbody></table>
+  </div>`;
+  drawInvTable();
+}
+
+function drawInvTable() {
+  const q = invQ.toLowerCase();
+  const prods = DB.productos.filter(p => {
+    const mt = !q || p.n.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q);
+    const mc = invCat === 'Todas' || p.cat === invCat;
+    const ms = invStk === 'todos' || (invStk === 'ok' && p.stock > p.smin) || (invStk === 'bajo' && p.stock > 0 && p.stock <= p.smin) || (invStk === 'ago' && p.stock <= 0);
+    return mt && mc && ms;
+  });
+  const el = document.getElementById('invcount');
+  if (el) el.textContent = prods.length + ' productos';
+  const tbody = document.getElementById('invtbody');
+  if (!tbody) return;
+  if (!prods.length) { tbody.innerHTML = '<tr><td colspan="9" class="tempty">Sin productos encontrados</td></tr>'; return; }
+  tbody.innerHTML = prods.map(p => {
+    const margen = p.costo > 0 ? Math.round((p.venta - p.costo) / p.venta * 100) : 0;
+    const scls = p.stock <= 0 ? 'terr bold' : p.stock <= p.smin ? 'tacc bold' : 'tok bold';
+    return `<tr>
+      <td style="font-size:1.3rem;text-align:center">${p.ico || '📦'}</td>
+      <td class="bold">${p.n}</td>
+      <td><span class="badge binf">${p.cat}</span></td>
+      <td>${Q(p.costo)}</td>
+      <td class="bold tacc">${Q(p.venta)}</td>
+      <td>${margen}%</td>
+      <td class="${scls}">${p.stock} ${p.u}</td>
+      <td>${sbadge(p)}</td>
+      <td><div class="flex gap1">
+        <button class="btn bg bxs" title="Editar" onclick="openEditProd('${p.id}')">✏️</button>
+        <button class="btn bi bxs" title="Ajustar stock" onclick="openAjuste('${p.id}')">📦</button>
+        <button class="btn bd bxs" title="Eliminar" onclick="deleteProd('${p.id}')">🗑️</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function openNewProd() {
+  editId = null;
+  document.getElementById('mptitle').textContent = 'Nuevo Producto';
+  const fields = ['p-nombre', 'p-ico', 'p-costo', 'p-precio', 'p-desc'];
+  fields.forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-stock').value = '0';
+  document.getElementById('p-stockmin').value = '3';
+  document.getElementById('p-ico').value = '📦';
+  const sel = document.getElementById('p-cat');
+  const allCats = [...new Set([...CATS, ...DB.productos.map(p => p.cat)])].sort();
+  sel.innerHTML = allCats.map(c => `<option>${c}</option>`).join('');
+  om('mprod');
+}
+
+function openEditProd(id) {
+  const p = DB.productos.find(x => x.id === id); if (!p) return;
+  editId = id;
+  document.getElementById('mptitle').textContent = 'Editar Producto';
+  document.getElementById('p-nombre').value = p.n;
+  document.getElementById('p-ico').value = p.ico || '📦';
+  document.getElementById('p-costo').value = p.costo;
+  document.getElementById('p-precio').value = p.venta;
+  document.getElementById('p-stock').value = p.stock;
+  document.getElementById('p-stockmin').value = p.smin;
+  document.getElementById('p-desc').value = p.desc || '';
+  const allCats = [...new Set([...CATS, ...DB.productos.map(x => x.cat)])].sort();
+  document.getElementById('p-cat').innerHTML = allCats.map(c => `<option ${c === p.cat ? 'selected' : ''}>${c}</option>`).join('');
+  const us = document.getElementById('p-unidad');
+  [...us.options].forEach(o => { o.selected = o.value === p.u; });
+  om('mprod');
+}
+
+function saveProd() {
+  const nombre = document.getElementById('p-nombre').value.trim();
+  if (!nombre) { toast('Ingresá el nombre del producto', 'err'); return; }
+  const precio = parseFloat(document.getElementById('p-precio').value);
+  if (!precio || precio <= 0) { toast('Ingresá un precio de venta válido', 'err'); return; }
+  const prod = {
+    n: nombre,
+    ico: document.getElementById('p-ico').value || '📦',
+    cat: document.getElementById('p-cat').value,
+    costo: parseFloat(document.getElementById('p-costo').value) || 0,
+    venta: precio,
+    stock: parseInt(document.getElementById('p-stock').value) || 0,
+    smin: parseInt(document.getElementById('p-stockmin').value) || 3,
+    u: document.getElementById('p-unidad').value,
+    desc: document.getElementById('p-desc').value || ''
+  };
+  if (editId) {
+    const idx = DB.productos.findIndex(x => x.id === editId);
+    if (idx >= 0) { DB.productos[idx] = { ...DB.productos[idx], ...prod }; toast('✅ Producto actualizado', 'ok'); }
+  } else {
+    prod.id = 'P' + Date.now().toString(36).toUpperCase();
+    DB.productos.push(prod);
+    toast('✅ Producto agregado', 'ok');
+  }
+  cm('mprod'); saveLS(); drawInvTable();
+}
+
+function deleteProd(id) {
+  const p = DB.productos.find(x => x.id === id);
+  danger('Eliminar Producto', `¿Eliminar "${p?.n}"? Esta acción no se puede deshacer.`, () => {
+    DB.productos = DB.productos.filter(x => x.id !== id);
+    saveLS(); toast('Producto eliminado', 'info'); drawInvTable();
+  });
+}
+
+function openAjuste(id) {
+  ajusteId = id;
+  const p = DB.productos.find(x => x.id === id);
+  document.getElementById('ajuste-nm').textContent = p?.n + '  (Stock actual: ' + p?.stock + ' ' + p?.u + ')';
+  document.getElementById('ajuste-qty').value = '';
+  document.getElementById('ajuste-motivo').value = '';
+  document.getElementById('ajuste-tipo').value = 'entrada';
+  om('majuste');
+}
+
+function confirmAjuste() {
+  const p = DB.productos.find(x => x.id === ajusteId); if (!p) return;
+  const tipo = document.getElementById('ajuste-tipo').value;
+  const qty = parseInt(document.getElementById('ajuste-qty').value);
+  if (!qty && tipo !== 'fijo') { toast('Ingresá la cantidad', 'err'); return; }
+  const motivo = document.getElementById('ajuste-motivo').value;
+  const antes = p.stock;
+  if (tipo === 'entrada') p.stock += qty;
+  else if (tipo === 'salida') p.stock = Math.max(0, p.stock - qty);
+  else p.stock = Math.max(0, qty);
+  DB.movimientos.push({ id: gid(), fecha: new Date().toISOString(), tipo, pid: p.id, pn: p.n, qty, antes, despues: p.stock, motivo });
+  saveLS(); toast('✅ Stock: ' + antes + ' → ' + p.stock, 'ok');
+  cm('majuste'); drawInvTable();
+}
+
+function exportInvCSV() {
+  const h = 'Producto,Categoría,Stock,Unidad,Costo,Precio Venta,Valor Costo,Valor Venta,Estado\n';
+  const r = DB.productos.map(p => [
+    `"${p.n}"`, p.cat, p.stock, p.u, p.costo, p.venta,
+    (p.stock * p.costo).toFixed(2), (p.stock * p.venta).toFixed(2),
+    p.stock <= 0 ? 'Agotado' : p.stock <= p.smin ? 'Stock Bajo' : 'OK'
+  ].join(',')).join('\n');
+  dlCSV(h + r, 'inventario_' + hoy() + '.csv');
+  toast('📥 CSV exportado', 'ok');
+}
+
+// ══════════════════════════════════════════════════
+// VENTAS (POS)
+// ══════════════════════════════════════════════════
+function renderVentas() {
+  const cats = ['Todas', ...new Set(DB.productos.map(p => p.cat))].sort((a, b) => a === 'Todas' ? -1 : b === 'Todas' ? 1 : a.localeCompare(b));
+  document.getElementById('content').innerHTML = `
+  <div class="posgrid">
+    <div class="posleft">
+      <div class="possearch"><input id="posQ" placeholder="🔍 Buscar producto..." oninput="posQ=this.value;drawProdGrid()"></div>
+      <div class="poscats" id="poscats">${cats.map(c => `<div class="poscat ${c === posCat ? 'on' : ''}" onclick="setPosCat('${c}')">${c}</div>`).join('')}</div>
+      <div class="prodgrid" id="prodgrid"></div>
+    </div>
+    <div class="cartpanel">
+      <div class="carth"><h3>🛒 Carrito</h3><button class="btn bo bsm" onclick="clearCart()">Limpiar</button></div>
+      <div class="cartitems" id="cartitems"><div class="cartempty">Seleccioná productos</div></div>
+      <div class="cartfoot">
+        <div class="cartinputs">
+          <input id="cart-cliente" placeholder="👤 Cliente (opcional)">
+          <select id="cart-pago"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option><option>Otro</option></select>
+        </div>
+        <div class="cartinputs" style="grid-template-columns:1fr">
+          <input id="cart-desc" type="number" min="0" max="100" step="0.5" placeholder="% Descuento (opcional)" oninput="drawCartTotals()">
+        </div>
+        <div id="carttotals"></div>
+        <button class="btn bs" style="width:100%;justify-content:center;padding:10px;margin-top:8px" onclick="confirmVenta()">✅ Confirmar Venta</button>
+      </div>
+    </div>
+  </div>`;
+  drawProdGrid(); drawCartItems(); drawCartTotals();
+}
+
+function setPosCat(cat) {
+  posCat = cat;
+  document.querySelectorAll('.poscat').forEach(el => el.classList.toggle('on', el.textContent === cat));
+  drawProdGrid();
+}
+
+function drawProdGrid() {
+  const grid = document.getElementById('prodgrid'); if (!grid) return;
+  const q = posQ.toLowerCase();
+  let prods = DB.productos;
+  if (posCat !== 'Todas') prods = prods.filter(p => p.cat === posCat);
+  if (q) prods = prods.filter(p => p.n.toLowerCase().includes(q));
+  grid.innerHTML = prods.length ? prods.map(p => `
+    <div class="pcard ${p.stock <= 0 ? 'oos' : ''}" onclick="${p.stock > 0 ? `addCart('${p.id}')` : ''}">
+      <div class="pic">${p.ico || '📦'}</div>
+      <div class="pnm">${p.n}</div>
+      <div class="ppr">${Q(p.venta)}</div>
+      <div class="pst">${p.stock <= 0 ? 'AGOTADO' : p.stock + ' en stock'}</div>
+    </div>`).join('') : '<div style="padding:20px;color:var(--t3);text-align:center;grid-column:1/-1">Sin productos en esta categoría</div>';
+}
+
+function addCart(id) {
+  const p = DB.productos.find(x => x.id === id); if (!p || p.stock <= 0) return;
+  const ex = cart.find(x => x.id === id);
+  if (ex) {
+    if (ex.qty >= p.stock) { toast('Sin más stock disponible', 'err'); return; }
+    ex.qty++;
+  } else {
+    cart.push({ id, n: p.n, precio: p.venta, costo: p.costo || 0, qty: 1, u: p.u });
+  }
+  drawCartItems(); drawCartTotals();
+}
+
+function changeQty(id, d) {
+  const it = cart.find(x => x.id === id); if (!it) return;
+  const p = DB.productos.find(x => x.id === id);
+  it.qty = Math.max(0, Math.min(it.qty + d, p?.stock || 9999));
+  if (it.qty === 0) cart = cart.filter(x => x.id !== id);
+  drawCartItems(); drawCartTotals();
+}
+
+function removeCart(id) { cart = cart.filter(x => x.id !== id); drawCartItems(); drawCartTotals(); }
+
+function clearCart() {
+  if (!cart.length) return;
+  danger('Limpiar Carrito', '¿Vaciar el carrito?', () => { cart = []; drawCartItems(); drawCartTotals(); });
+}
+
+function drawCartItems() {
+  const el = document.getElementById('cartitems'); if (!el) return;
+  if (!cart.length) { el.innerHTML = '<div class="cartempty">Seleccioná productos del catálogo</div>'; return; }
+  el.innerHTML = cart.map(it => `
+    <div class="ci">
+      <div class="cinm">${it.n}</div>
+      <div class="ciq">
+        <button onclick="changeQty('${it.id}',-1)">−</button>
+        <span>${it.qty}</span>
+        <button onclick="changeQty('${it.id}',1)">+</button>
+      </div>
+      <div class="cipr">${Q(it.precio * it.qty)}</div>
+      <button class="cidel" onclick="removeCart('${it.id}')">✕</button>
+    </div>`).join('');
+}
+
+function drawCartTotals() {
+  const el = document.getElementById('carttotals'); if (!el) return;
+  const sub = cart.reduce((s, it) => s + it.precio * it.qty, 0);
+  const dp = parseFloat(document.getElementById('cart-desc')?.value) || 0;
+  const dm = sub * dp / 100;
+  const total = sub - dm;
+  el.innerHTML = `
+    <div class="cartrow"><span>Subtotal:</span><span>${Q(sub)}</span></div>
+    ${dp ? `<div class="cartrow terr"><span>Descuento (${dp}%):</span><span>-${Q(dm)}</span></div>` : ''}
+    <div class="cartrow grand"><span>TOTAL:</span><span>${Q(total)}</span></div>`;
+}
+
+function confirmVenta() {
+  if (!cart.length) { toast('El carrito está vacío', 'err'); return; }
+  const sub = cart.reduce((s, it) => s + it.precio * it.qty, 0);
+  const dp = parseFloat(document.getElementById('cart-desc')?.value) || 0;
+  const dm = sub * dp / 100;
+  const total = sub - dm;
+  const nfac = DB.cfg.nextFac++;
+  const venta = {
+    id: gid(), fecha: new Date().toISOString(), nfac,
+    cliente: document.getElementById('cart-cliente')?.value || '',
+    pago: document.getElementById('cart-pago')?.value || 'Efectivo',
+    items: cart.map(it => ({ ...it })),
+    sub, dp, dm, total
+  };
+  venta.items.forEach(it => {
+    const p = DB.productos.find(x => x.id === it.id);
+    if (p) p.stock = Math.max(0, p.stock - it.qty);
+  });
+  DB.ventas.push(venta);
+  lastVenta = venta;
+  saveLS();
+  document.getElementById('ventaok-body').innerHTML = buildFacHTML(venta);
+  om('mventaok');
+  cart = [];
+  renderVentas();
+  toast('✅ Venta #' + nfac + ' — ' + Q(total), 'ok');
+}
+
+function printLastSale() {
+  if (!lastVenta) return;
+  document.getElementById('facprint').innerHTML = buildFacHTML(lastVenta);
+  cm('mventaok');
+  om('mfac');
+  setTimeout(() => window.print(), 400);
+}
+
+function buildFacHTML(v) {
+  if (!v) return '';
+  return `<div class="facbody">
+    <div class="fach"><h2>🔧 ${DB.cfg.negocio}</h2>${DB.cfg.tel ? '<div>Tel: ' + DB.cfg.tel + '</div>' : ''}${DB.cfg.dir ? '<div>' + DB.cfg.dir + '</div>' : ''}
+    <div style="margin-top:6px">FACTURA INTERNA #${v.nfac}</div></div>
+    <div style="display:flex;justify-content:space-between;font-size:.7rem;margin:5px 0">
+      <span>${fechaL(v.fecha)} ${horaL(v.fecha)}</span><span>Pago: ${v.pago}</span>
+    </div>
+    ${v.cliente ? `<div style="font-size:.7rem;margin-bottom:5px">Cliente: <strong>${v.cliente}</strong></div>` : ''}
+    <table class="factbl"><thead><tr><th>Descripción</th><th>Cant.</th><th>Precio</th><th>Total</th></tr></thead>
+    <tbody>${v.items.map(it => `<tr><td>${it.n}</td><td>${it.qty}</td><td>${Q(it.precio)}</td><td>${Q(it.precio * it.qty)}</td></tr>`).join('')}</tbody></table>
+    <div class="factot">Subtotal: ${Q(v.sub)}<br>${v.dp ? `Descuento (${v.dp}%): -${Q(v.dm)}<br>` : ''}<strong>TOTAL: ${Q(v.total)}</strong></div>
+    <div class="facfoot">Gracias por su compra — Control Interno</div>
+  </div>`;
+}
+
+function showFac(id) {
+  const v = DB.ventas.find(x => x.id === id); if (!v) return;
+  lastVenta = v;
+  document.getElementById('facprint').innerHTML = buildFacHTML(v);
+  om('mfac');
+}
+
+// ══════════════════════════════════════════════════
+// FACTURAS
+// ══════════════════════════════════════════════════
+function renderFacs() {
+  if (!facDesde) facDesde = hoy().slice(0, 7) + '-01';
+  if (!facHasta) facHasta = hoy();
+  const tot = DB.ventas.reduce((s, v) => s + v.total, 0);
+  document.getElementById('content').innerHTML = `
+  <div class="sgrid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="sc"><div class="slbl">Total Facturas</div><div class="sval">${DB.ventas.length}</div></div>
+    <div class="sc g"><div class="slbl">Total Vendido</div><div class="sval">${Q(tot)}</div></div>
+    <div class="sc b"><div class="slbl">Ticket Promedio</div><div class="sval">${Q(DB.ventas.length ? tot / DB.ventas.length : 0)}</div></div>
+  </div>
+  <div class="fbar">
+    <input class="fsearch" id="facQ" placeholder="🔍 Buscar # factura o cliente..." value="${facQ}" oninput="facQ=this.value;drawFacTable()">
+    <input type="date" id="facDesde" value="${facDesde}" onchange="facDesde=this.value;drawFacTable()">
+    <input type="date" id="facHasta" value="${facHasta}" onchange="facHasta=this.value;drawFacTable()">
+    <button class="btn bg bsm" onclick="facDesde='2000-01-01';facHasta=hoy();document.getElementById('facDesde').value=facDesde;document.getElementById('facHasta').value=facHasta;drawFacTable()">Ver Todas</button>
+    <button class="btn bg bsm" onclick="exportFacCSV()">📥 Exportar CSV</button>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>🧾 Historial de Facturas</h3><span class="tmut" id="faccount"></span></div>
+    <table><thead><tr><th>#Fac</th><th>Fecha</th><th>Hora</th><th>Cliente</th><th>Items</th><th>Pago</th><th>Desc.</th><th>Total</th><th></th></tr></thead>
+    <tbody id="factbody"></tbody></table>
+  </div>`;
+  drawFacTable();
+}
+
+function drawFacTable() {
+  const q = facQ.toLowerCase();
+  const ventas = DB.ventas.filter(v => {
+    const mt = !q || (v.nfac + '').includes(q) || (v.cliente || '').toLowerCase().includes(q);
+    const mf = v.fecha.slice(0, 10) >= facDesde && v.fecha.slice(0, 10) <= facHasta;
+    return mt && mf;
+  }).slice().reverse();
+  const el = document.getElementById('faccount');
+  if (el) el.textContent = ventas.length + ' facturas · ' + Q(ventas.reduce((s, v) => s + v.total, 0));
+  const tbody = document.getElementById('factbody'); if (!tbody) return;
+  if (!ventas.length) { tbody.innerHTML = '<tr><td colspan="9" class="tempty">No se encontraron facturas</td></tr>'; return; }
+  tbody.innerHTML = ventas.map(v => `<tr>
+    <td class="tacc bold">#${v.nfac}</td>
+    <td>${fechaL(v.fecha)}</td><td>${horaL(v.fecha)}</td>
+    <td>${v.cliente || '—'}</td>
+    <td>${v.items.length}</td>
+    <td><span class="badge binf">${v.pago}</span></td>
+    <td>${v.dp ? v.dp + '%' : '—'}</td>
+    <td class="tacc bold">${Q(v.total)}</td>
+    <td><div class="flex gap1">
+      <button class="btn bg bxs" onclick="showFac('${v.id}')">🧾 Ver</button>
+      <button class="btn bi bxs" onclick="showFac('${v.id}');setTimeout(()=>window.print(),500)">🖨️</button>
+    </div></td>
+  </tr>`).join('');
+}
+
+function exportFacCSV() {
+  const h = 'Factura,Fecha,Cliente,Items,Pago,Descuento%,Total\n';
+  const r = DB.ventas.map(v => [v.nfac, fechaL(v.fecha), `"${v.cliente || ''}"`, v.items.length, v.pago, v.dp || 0, v.total.toFixed(2)].join(',')).join('\n');
+  dlCSV(h + r, 'facturas_' + hoy() + '.csv');
+  toast('📥 CSV exportado', 'ok');
+}
+
+// ══════════════════════════════════════════════════
+// REPORTES
+// ══════════════════════════════════════════════════
+function renderReps() {
+  if (!repFecha) repFecha = hoy();
+  document.getElementById('content').innerHTML = `
+  <div class="tabs">
+    <div class="tab ${repTab === 'diario' ? 'on' : ''}" onclick="setRepTab('diario',this)">📅 Diario</div>
+    <div class="tab ${repTab === 'mensual' ? 'on' : ''}" onclick="setRepTab('mensual',this)">📆 Mensual</div>
+    <div class="tab ${repTab === 'productos' ? 'on' : ''}" onclick="setRepTab('productos',this)">📦 Por Producto</div>
+    <div class="tab ${repTab === 'inventario' ? 'on' : ''}" onclick="setRepTab('inventario',this)">🏭 Inventario</div>
+  </div>
+  <div id="repcontent"></div>`;
+  drawRepTab();
+}
+
+function setRepTab(tab, el) {
+  repTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  drawRepTab();
+}
+
+function drawRepTab() {
+  if (repTab === 'diario') drawRepDiario();
+  else if (repTab === 'mensual') drawRepMensual();
+  else if (repTab === 'productos') drawRepProductos();
+  else if (repTab === 'inventario') drawRepInventario();
+}
+
+function drawRepDiario() {
+  const rc = document.getElementById('repcontent'); if (!rc) return;
+  const ventas = DB.ventas.filter(v => v.fecha.slice(0, 10) === repFecha);
+  const total = ventas.reduce((s, v) => s + v.total, 0);
+  const gan = ventas.reduce((s, v) => s + v.items.reduce((a, it) => a + (it.precio - (it.costo || 0)) * it.qty, 0), 0);
+  const pc = {};
+  ventas.forEach(v => v.items.forEach(it => { pc[it.n] = (pc[it.n] || 0) + it.qty; }));
+  const top = Object.entries(pc).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  rc.innerHTML = `
+  <div class="fbar">
+    <input type="date" id="repFecha" value="${repFecha}" onchange="repFecha=this.value;drawRepDiario()">
+    <button class="btn bg bsm" onclick="exportRepDiario()">📥 Exportar JSON</button>
+  </div>
+  <div class="sgrid">
+    <div class="sc"><div class="slbl">Ventas del Día</div><div class="sval" id="rd-cnt">${ventas.length}</div></div>
+    <div class="sc g"><div class="slbl">Total Facturado</div><div class="sval" id="rd-tot">${Q(total)}</div></div>
+    <div class="sc b"><div class="slbl">Ganancia Est.</div><div class="sval" id="rd-gan">${Q(gan)}</div></div>
+    <div class="sc p"><div class="slbl">Ticket Promedio</div><div class="sval" id="rd-avg">${Q(ventas.length ? total / ventas.length : 0)}</div></div>
+  </div>
+  <div class="tc mb4">
+    <div class="thead"><h3>🏆 Top Productos del Día</h3></div>
+    <table><thead><tr><th>#</th><th>Producto</th><th>Unidades Vendidas</th></tr></thead>
+    <tbody>${top.length ? top.map((p, i) => `<tr><td class="bold">${i + 1}</td><td>${p[0]}</td><td class="tacc bold">${p[1]}</td></tr>`).join('') : '<tr><td colspan="3" class="tempty">Sin ventas para esta fecha</td></tr>'}</tbody>
+    </table>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>📋 Ventas del Día</h3></div>
+    <table><thead><tr><th>Factura</th><th>Hora</th><th>Cliente</th><th>Items</th><th>Pago</th><th>Total</th></tr></thead>
+    <tbody>${ventas.length ? ventas.map(v => `<tr onclick="showFac('${v.id}')" style="cursor:pointer">
+      <td class="tacc bold">#${v.nfac}</td><td>${horaL(v.fecha)}</td>
+      <td>${v.cliente || '—'}</td><td>${v.items.length}</td>
+      <td>${v.pago}</td><td class="bold">${Q(v.total)}</td></tr>`).join('') : '<tr><td colspan="6" class="tempty">Sin ventas para esta fecha</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+function drawRepMensual() {
+  const rc = document.getElementById('repcontent'); if (!rc) return;
+  const meses = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(); d.setMonth(d.getMonth() - i);
+    const k = d.toISOString().slice(0, 7);
+    const vv = DB.ventas.filter(v => v.fecha.slice(0, 7) === k);
+    meses.push({ k, lbl: d.toLocaleDateString('es-GT', { month: 'short', year: '2-digit' }), total: vv.reduce((s, v) => s + v.total, 0), cnt: vv.length });
+  }
+  rc.innerHTML = `
+  <div class="sgrid" style="grid-template-columns:repeat(3,1fr)">
+    ${meses.slice(-3).map(m => `<div class="sc g"><div class="slbl">${m.lbl}</div><div class="sval">${Q(m.total)}</div><div class="ssub">${m.cnt} ventas</div></div>`).join('')}
+  </div>
+  <div class="cc mb4"><h3>📊 Ventas Mensuales (Q)</h3><div><canvas id="ch-mes"></canvas></div></div>
+  <div class="tc">
+    <div class="thead"><h3>📆 Resumen Mensual</h3><button class="btn bg bsm" onclick="exportRepMensual()">📥 Exportar CSV</button></div>
+    <table><thead><tr><th>Mes</th><th>Ventas</th><th>Total Facturado</th><th>Ticket Promedio</th></tr></thead>
+    <tbody>${meses.map(m => `<tr><td class="bold">${m.lbl}</td><td>${m.cnt}</td><td class="tacc bold">${Q(m.total)}</td><td>${Q(m.cnt ? m.total / m.cnt : 0)}</td></tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+  requestAnimationFrame(() => { drawBar('ch-mes', meses.map(m => m.lbl), meses.map(m => m.total), COLORS); });
+}
+
+function drawRepProductos() {
+  const rc = document.getElementById('repcontent'); if (!rc) return;
+  const ps = {};
+  DB.ventas.forEach(v => v.items.forEach(it => {
+    if (!ps[it.id]) ps[it.id] = { n: it.n, qty: 0, total: 0, gan: 0 };
+    ps[it.id].qty += it.qty; ps[it.id].total += it.precio * it.qty;
+    ps[it.id].gan += (it.precio - (it.costo || 0)) * it.qty;
+  }));
+  const stats = Object.values(ps).sort((a, b) => b.total - a.total);
+  rc.innerHTML = `
+  <div class="tc">
+    <div class="thead"><h3>🏆 Ranking por Ventas</h3><button class="btn bg bsm" onclick="exportRepProd()">📥 Exportar CSV</button></div>
+    <table><thead><tr><th>#</th><th>Producto</th><th>Unidades</th><th>Total Ventas</th><th>Ganancia Est.</th></tr></thead>
+    <tbody>${stats.length ? stats.map((p, i) => `<tr>
+      <td class="bold">${i + 1}</td><td>${p.n}</td>
+      <td class="tacc bold">${p.qty}</td>
+      <td>${Q(p.total)}</td><td class="tok bold">${Q(p.gan)}</td></tr>`).join('') : '<tr><td colspan="5" class="tempty">Sin datos de ventas aún</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+function drawRepInventario() {
+  const rc = document.getElementById('repcontent'); if (!rc) return;
+  const vc = DB.productos.reduce((s, p) => s + p.stock * p.costo, 0);
+  const vv = DB.productos.reduce((s, p) => s + p.stock * p.venta, 0);
+  rc.innerHTML = `
+  <div class="sgrid">
+    <div class="sc"><div class="slbl">Productos</div><div class="sval">${DB.productos.length}</div></div>
+    <div class="sc b"><div class="slbl">Valor al Costo</div><div class="sval">${Q(vc)}</div></div>
+    <div class="sc g"><div class="slbl">Valor a Precio Venta</div><div class="sval">${Q(vv)}</div></div>
+    <div class="sc p"><div class="slbl">Ganancia Potencial</div><div class="sval">${Q(vv - vc)}</div></div>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>📦 Inventario Completo</h3><button class="btn bg bsm" onclick="exportInvCSV()">📥 Exportar CSV</button></div>
+    <table><thead><tr><th>Producto</th><th>Categoría</th><th>Stock</th><th>Costo</th><th>Precio Venta</th><th>Valor Costo</th><th>Valor Venta</th><th>Estado</th></tr></thead>
+    <tbody>${DB.productos.map(p => `<tr>
+      <td class="bold">${p.ico || ''} ${p.n}</td>
+      <td><span class="badge binf">${p.cat}</span></td>
+      <td class="${p.stock <= 0 ? 'terr' : p.stock <= p.smin ? 'tacc' : 'tok'} bold">${p.stock} ${p.u}</td>
+      <td>${Q(p.costo)}</td><td>${Q(p.venta)}</td>
+      <td>${Q(p.stock * p.costo)}</td><td>${Q(p.stock * p.venta)}</td>
+      <td>${sbadge(p)}</td>
+    </tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+// Exportaciones reportes
+function exportRepDiario() {
+  const ventas = DB.ventas.filter(v => v.fecha.slice(0, 10) === repFecha);
+  dlJSON({ fecha: repFecha, ventas, total: ventas.reduce((s, v) => s + v.total, 0) }, 'reporte_' + repFecha + '.json');
+  toast('📥 Reporte exportado', 'ok');
+}
+function exportRepMensual() {
+  const rows = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(); d.setMonth(d.getMonth() - i);
+    const k = d.toISOString().slice(0, 7);
+    const vv = DB.ventas.filter(v => v.fecha.slice(0, 7) === k);
+    rows.push([d.toLocaleDateString('es-GT', { month: 'long', year: 'numeric' }), vv.length, vv.reduce((s, v) => s + v.total, 0).toFixed(2)].join(','));
+  }
+  dlCSV('Mes,Ventas,Total\n' + rows.join('\n'), 'reporte_mensual_' + hoy() + '.csv');
+  toast('📥 CSV exportado', 'ok');
+}
+function exportRepProd() {
+  const ps = {};
+  DB.ventas.forEach(v => v.items.forEach(it => {
+    if (!ps[it.id]) ps[it.id] = { n: it.n, qty: 0, total: 0 };
+    ps[it.id].qty += it.qty; ps[it.id].total += it.precio * it.qty;
+  }));
+  const rows = Object.values(ps).sort((a, b) => b.total - a.total).map(p => [`"${p.n}"`, p.qty, p.total.toFixed(2)].join(',')).join('\n');
+  dlCSV('Producto,Unidades,Total\n' + rows, 'reporte_productos_' + hoy() + '.csv');
+  toast('📥 CSV exportado', 'ok');
+}
+
+// ══════════════════════════════════════════════════
+// BACKUP
+// ══════════════════════════════════════════════════
+function renderBackup() {
+  const ub = DB.cfg.lastBackup;
+  document.getElementById('content').innerHTML = `
+  <div class="bgrid">
+    <div class="bcard">
+      <div class="bic">💾</div><h3>Guardar Datos</h3>
+      <p>Guarda en datos.json en tu carpeta conectada y en el navegador.</p>
+      <button class="btn ba" onclick="saveData()">💾 Guardar Ahora</button>
+    </div>
+    <div class="bcard">
+      <div class="bic">📦</div><h3>Backup Manual</h3>
+      <p>Copia de seguridad con fecha/hora.${ub ? '<br>Último: ' + fechaL(ub) : ''}</p>
+      <button class="btn bi" onclick="doBackup(true)">📦 Crear Backup</button>
+    </div>
+    <div class="bcard">
+      <div class="bic">📂</div><h3>Conectar Carpeta</h3>
+      <p>Vincula una carpeta de tu disco duro. Recomendado: Chrome o Edge.</p>
+      <button class="btn bs" onclick="connectFS()">📂 Seleccionar Carpeta</button>
+    </div>
+    <div class="bcard">
+      <div class="bic">🔄</div><h3>Restaurar Backup</h3>
+      <p>Carga un archivo .json de backup para restaurar todos los datos.</p>
+      <button class="btn bg" onclick="importBackup()">🔄 Importar Backup</button>
+    </div>
+    <div class="bcard">
+      <div class="bic">📥</div><h3>Exportar JSON</h3>
+      <p>Descarga todos los datos del sistema como archivo JSON.</p>
+      <button class="btn bg" onclick="dlJSON(DB,'export_'+hoy()+'.json');toast('📥 JSON descargado','ok')">📥 Descargar JSON</button>
+    </div>
+    <div class="bcard">
+      <div class="bic">⏱️</div><h3>Auto-Backup</h3>
+      <p>Intervalo actual: <strong>${DB.cfg.backupMin} minutos</strong></p>
+      <div class="flex gap2" style="justify-content:center">
+        <button class="btn bg bsm" onclick="setAutoBackup(15)">15 min</button>
+        <button class="btn bg bsm" onclick="setAutoBackup(30)">30 min</button>
+        <button class="btn bg bsm" onclick="setAutoBackup(60)">60 min</button>
+      </div>
+    </div>
+  </div>
+  <div class="tc">
+    <div class="thead"><h3>📋 Log del Sistema</h3><button class="btn bg bsm" onclick="document.getElementById('blogcontent').innerHTML='';logs.length=0">Limpiar Log</button></div>
+    <div class="blog" id="blogcontent">${logs.length ? logs.map(l => `<div class="l${l.tipo}">[${l.ts}] ${l.msg}</div>`).join('') : '<div class="linf">Sistema listo. Conectá una carpeta para guardar en disco.</div>'}</div>
+  </div>`;
+}
+
+function setAutoBackup(m) {
+  DB.cfg.backupMin = m; saveLS(); startAutoBackup();
+  toast('Auto-backup: cada ' + m + ' minutos', 'ok');
+  renderBackup();
+}
+
+// ══════════════════════════════════════════════════
+// CONFIGURACIÓN
+// ══════════════════════════════════════════════════
+function renderConfig() {
+  document.getElementById('content').innerHTML = `
+  <div class="tc" style="max-width:520px">
+    <div class="thead"><h3>⚙️ Datos del Negocio</h3></div>
+    <div style="padding:18px">
+      <div class="fr c1"><div class="fg"><label>Nombre del Negocio</label><input id="cfg-nm" value="${DB.cfg.negocio}" placeholder="Ferreteria Garcia"></div></div>
+      <div class="fr">
+        <div class="fg"><label>Teléfono</label><input id="cfg-tel" value="${DB.cfg.tel}" placeholder="+502 0000-0000"></div>
+        <div class="fg"><label>Próximo # Factura</label><input id="cfg-fac" type="number" value="${DB.cfg.nextFac}"></div>
+      </div>
+      <div class="fr c1"><div class="fg"><label>Dirección</label><input id="cfg-dir" value="${DB.cfg.dir}" placeholder="Ciudad de Guatemala"></div></div>
+      <div style="margin-top:4px"><button class="btn ba" onclick="saveConfig()">✓ Guardar Configuración</button></div>
+    </div>
+  </div>
+  <div class="tc" style="max-width:520px;margin-top:12px">
+    <div class="thead"><h3>⚠️ Zona de Peligro</h3></div>
+    <div style="padding:18px;display:flex;flex-direction:column;gap:10px">
+      <div class="alw">Estas acciones son irreversibles. Hacé un backup antes.</div>
+      <button class="btn bd bsm" onclick="danger('Borrar Ventas','¿Borrar TODAS las ventas? Esta acción no se puede deshacer.',()=>{DB.ventas=[];DB.cfg.nextFac=1001;saveLS();toast('Ventas borradas','info');go(curPage);})">🗑️ Borrar todas las ventas</button>
+      <button class="btn bd bsm" onclick="danger('Restaurar Inventario','¿Restaurar el inventario a los productos de fábrica? Se perderán los productos personalizados.',()=>{DB.productos=JSON.parse(JSON.stringify(PROD_DEFAULT));saveLS();toast('Inventario restaurado','info');go(curPage);})">🔄 Restaurar inventario de fábrica</button>
+      <button class="btn bg bsm" onclick="danger('⚠️ RESET TOTAL','¿Borrar ABSOLUTAMENTE TODOS los datos del sistema? Esta acción NO se puede deshacer.',()=>{localStorage.removeItem('aceiteraDB');location.reload();})">💣 Reset total del sistema</button>
+    </div>
+  </div>`;
+}
+
+function saveConfig() {
+  DB.cfg.negocio = document.getElementById('cfg-nm').value || 'Ferreteria Garcia';
+  DB.cfg.tel = document.getElementById('cfg-tel').value || '';
+  DB.cfg.dir = document.getElementById('cfg-dir').value || '';
+  DB.cfg.nextFac = parseInt(document.getElementById('cfg-fac').value) || DB.cfg.nextFac;
+  saveLS(); toast('✅ Configuración guardada', 'ok');
+}
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+function init() {
+  // Fecha topbar
+  document.getElementById('tdate').textContent = new Date().toLocaleDateString('es-GT', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+
+  // Cargar datos
+  const loaded = loadLS();
+  if (!loaded || !DB.productos.length) {
+    DB.productos = JSON.parse(JSON.stringify(PROD_DEFAULT));
+    saveLS();
+    addLog('Inventario inicial: ' + DB.productos.length + ' productos cargados', 'ok');
+  } else {
+    addLog('Datos cargados: ' + DB.productos.length + ' prods · ' + DB.ventas.length + ' ventas', 'ok');
+  }
+
+  // Poblar selector categorías del modal
+  const sel = document.getElementById('p-cat');
+  if (sel) sel.innerHTML = CATS.map(c => `<option>${c}</option>`).join('');
+
+  // Defaults filtros
+  facDesde = hoy().slice(0, 7) + '-01';
+  facHasta = hoy();
+  repFecha = hoy();
+
+  updateFSUI();
+  if (DB.cfg.backupAuto) startAutoBackup();
+  setInterval(saveLS, 90000); // autosave localStorage cada 90s
+
+  go('dashboard');
+  addLog('Ferreteria Garcia v2.0 iniciado correctamente', 'ok');
+}
+
+init();
+</script>
+</body>
+</html>
